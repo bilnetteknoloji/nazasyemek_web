@@ -1,0 +1,2 @@
+# Cloudflare Pages / Netlify yönlendirmeleri.
+# Statik export'ta 404 için 404.html kullanılır (Pages bunu otomatik alır).

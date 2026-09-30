@@ -1,26 +1,166 @@
 @import "tailwindcss";
 
+/*
+ * NAZ-AŞ tasarım sistemi — kaynak: Google Stitch
+ * Proje: "Kurumsal Yemek Hizmetleri Web Sitesi" (5156037269331682468)
+ * Ekran: "NAZ-AŞ | Ana Sayfa"
+ * Tema: LIGHT · Playfair Display + Plus Jakarta Sans · ROUND_EIGHT · #8b3a2b
+ *
+ * Değerler Stitch'in tailwind.config'inden birebir alındı; 50–950 ara
+ * basamakları Stitch çapaları arasında ara değerlemeyle tamamlandı.
+ */
+@theme {
+  /* Marka — Stitch primary ailesi (terracotta) */
+  --color-brand-50: #fbfaf8; /* surface (nötr beyaz — kullanıcı kararı) */
+  --color-brand-100: #ffdad3; /* primary-fixed */
+  --color-brand-200: #ffb4a6; /* primary-fixed-dim */
+  --color-brand-300: #e68d79;
+  --color-brand-400: #c4604a;
+  --color-brand-500: #994535; /* surface-tint */
+  --color-brand-600: #8b3a2b; /* primary-container */
+  --color-brand-700: #7b2e20; /* on-primary-fixed-variant */
+  --color-brand-800: #6d2417; /* primary */
+  --color-brand-900: #551a0f;
+  --color-brand-950: #3f0300; /* on-primary-fixed */
+
+  /* Vurgu — Stitch terracotta-rich / tertiary */
+  --color-accent-300: #ffb4a9; /* tertiary-fixed-dim */
+  --color-accent-400: #c13b36;
+  --color-accent-500: #9e2a2b; /* terracotta-rich */
+  --color-accent-600: #7e0403; /* tertiary */
+
+  /* Yeşil — Stitch secondary / sage-fresh (hijyen ve kalite vurguları) */
+  --color-sage-100: #bcf0ae; /* secondary-fixed */
+  --color-sage-300: #a1d494; /* secondary-fixed-dim */
+  --color-sage-500: #4e7c48; /* sage-fresh */
+  --color-sage-600: #3b6934; /* secondary */
+  --color-sage-700: #23501e; /* on-secondary-fixed-variant */
+
+  /* Yüzeyler — Stitch'in pembemsi surface tonları yerine beyaz / kirli beyaz */
+  --color-cream: #f9f8f5; /* kirli beyaz — sayfa zemini */
+  --color-cream-deep: #f3f1ec; /* koyu kirli beyaz — dönüşümlü bölümler */
+  --color-container: #efece6; /* surface-container */
+  --color-container-high: #ebe8e2; /* surface-container-high — footer zemini */
+  --color-inverse: #34302c; /* inverse-surface — koyu bant */
+  --color-inverse-on: #f6f4f0; /* inverse-on-surface */
+  --color-ink: #1e1b18; /* on-surface */
+  --color-muted: #706963; /* text-muted */
+  --color-subtle: #55423f; /* on-surface-variant */
+  --color-line: #e6e2db; /* warm-border */
+  --color-line-strong: #dbc1bc; /* outline-variant */
+
+  /* Tipografi — Stitch headlineFont / bodyFont */
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), ui-serif, Georgia, serif;
+
+  /* Gölgeler — Stitch'in kullandığı değerler */
+  --shadow-soft: 0 1px 3px rgb(44 40 37 / 0.05), 0 2px 8px rgb(44 40 37 / 0.05);
+  --shadow-lift: 0 2px 6px rgb(44 40 37 / 0.06), 0 12px 28px -14px rgb(44 40 37 / 0.16);
+  --shadow-glow: 0 4px 16px rgb(139 58 43 / 0.22);
+
+  /* Hareket */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  /*
+   * scroll-behavior: smooth BİLEREK kullanılmıyor.
+   * App Router sayfa değişiminde yukarı kaydırırken tarayıcı bunu animasyonlu
+   * yapıyor; o sırada yeni sayfa aşağı kaymış hâlde görünüyordu.
+   * Sayfa başına dönüşü ScrollToTop bileşeni anında yapar.
+   */
+  scroll-padding-top: 6rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-brand-900);
+  color: var(--color-cream);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Başlıklarda serif ve sıkı harf aralığı */
+/* Stitch display/headline ölçeği: Playfair Display, sıkı harf aralığı */
+@utility font-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+
+/* Görünür olunca beliren bölümler.
+   Temel durum GÖRÜNÜR'dür; gizleme yalnızca JS mount olduktan sonra eklenir,
+   böylece SSR çıktısı ile istemci eşleşir ve JS çalışmazsa içerik kaybolmaz. */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-y, 24px));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal-init {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, 24px));
+}
+
+.reveal-in {
+  animation: reveal-up 0.7s var(--ease-out-expo) both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-enter {
+  animation: page-enter 0.45s var(--ease-out-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-init,
+  .reveal-in,
+  .page-enter {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

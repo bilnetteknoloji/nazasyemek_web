@@ -1,0 +1,52 @@
+# NAZ-AŞ Yemek — statik yayın yapılandırması (Apache / LiteSpeed)
+# Bu dosya out/ klasörüne kopyalanır ve web köküne yüklenir.
+
+# --- Hata sayfası ---
+ErrorDocument 404 /404.html
+
+# --- Güvenlik başlıkları ---
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-DNS-Prefetch-Control "on"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), browsing-topics=()"
+</IfModule>
+
+# --- Uzantısız üretilen PNG'ler (Open Graph / ikonlar) doğru tiple sunulsun ---
+<Files "opengraph-image">
+  ForceType image/png
+</Files>
+
+# --- HTTPS'e yönlendir ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  # REQUEST_URI tam yolu taşır: alt klasör (/out) yayınında da doğru adrese gider.
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# --- Önbellek ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # Hash'li derleme dosyaları: kalıcı
+  <FilesMatch "\.(js|css)$">
+    ExpiresDefault "access plus 1 year"
+    Header append Cache-Control "immutable"
+  </FilesMatch>
+  <FilesMatch "\.(webp|png|jpg|jpeg|svg|ico|mp4|woff2)$">
+    ExpiresDefault "access plus 6 months"
+  </FilesMatch>
+  <FilesMatch "\.(html|pdf)$">
+    ExpiresDefault "access plus 1 hour"
+  </FilesMatch>
+</IfModule>
+
+# --- Sıkıştırma ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+# --- Klasör listelemeyi kapat ---
+Options -Indexes
