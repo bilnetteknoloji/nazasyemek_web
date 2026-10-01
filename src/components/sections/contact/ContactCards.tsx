@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 export function ContactCards() {
   return (
     <Section className="bg-cream pt-14 sm:pt-20">
-      <ul className="grid gap-6 lg:grid-cols-3">
+      <ul className="mobile-rail md:grid gap-6 lg:grid-cols-3">
         {contactCards.map((card, index) => (
           <Reveal
             as="li"

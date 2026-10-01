@@ -249,7 +249,7 @@ Kaydırmalı ekran görüntüsü alırken `--force-prefers-reduced-motion` kulla
 
 ## Kurallar
 
-- `src/data/site.ts` içindeki `// TODO` alanları (alan adı, Facebook linki) **gerçek değil**; yenilerini uydurmayın. Gerçek olanlar (2026-09-30, müşteriden): sabit hat 0212 470 16 29, WhatsApp 0545 470 16 29, mobil 0543 205 86 86 (yalnızca iletişim sayfası), Instagram/TikTok `nazasyemek`, e-posta info@nazasyemek.com (formlar da buraya gider). Facebook "Naz-Aş Yemek" linki gelene kadar arama URL'si kullanılıyor ve `verified: false` olduğu için JSON-LD `sameAs`'e girmiyor.
+- `src/data/site.ts` içindeki `// TODO` alanları (alan adı, Facebook linki) **gerçek değil**; yenilerini uydurmayın. Gerçek olanlar (2026-09-30, müşteriden): sabit hat 0212 470 16 29, WhatsApp 0543 205 86 86, mobil 0545 470 16 29 (2026-10-01 yer değiştirdi), Instagram/TikTok `nazasyemek`, e-posta info@nazasyemek.com (formlar da buraya gider). Facebook "Naz-Aş Yemek" linki gelene kadar arama URL'si kullanılıyor ve `verified: false` olduğu için JSON-LD `sameAs`'e girmiyor.
 - Menü verisi (`src/data/menu.ts`) örnek dört haftalık menüdür; yapı korunarak gerçeğiyle değiştirilecek.
 - Animasyonlar `prefers-reduced-motion` altında kapanmalı (globals.css'te tanımlı).
 - Tüm ikonlar `lucide-react`. **Tek istisna** sosyal medya marka logoları: `ui/SocialIcons.tsx` (Simple Icons 16.33.0, CC0, resmi renkler) — lucide'de TikTok yok, marka ikonları kaldırıldı.
@@ -262,3 +262,11 @@ npm run build    # üretim derlemesi
 npm run lint
 npm run assets   # varlıkları yeniden üret
 ```
+
+## Mobil uygulama düzeni + yeni logo (2026-10-01, dal `logo-whatsapp-mobil`)
+
+Masaüstü tasarıma dokunulmadı; yalnızca lg altı değişti. (Tam yeniden tasarım `tasarim-yenileme` dalında, kullanıcı reddetti.)
+- Logo: `../görseller/yeni/naz-as_logo_yazisiz.png` → `buildLogo` (+ potrace ile `logo.svg`). Header'da SVG + altında `site.slogan`.
+- `layout/MobileTabBar.tsx`: Ana Sayfa · Hizmetler · Teklif Al · WhatsApp · Menü. "Menü" `OPEN_MOBILE_NAV` olayıyla mevcut `MobileNav` çekmecesini açar (header'daki hamburger kaldırıldı). WhatsApp FAB yalnız lg+.
+- `mobile-rail` utility (globals.css): md altında kartlar yan yana kayar. Öğede `grid` yerine `md:grid` kullanın, yoksa `grid` ezer. Kart genişliği `[--rail-item:70%]`, üst boşluk `[--rail-pt:1.25rem]`.
+- `sections/QuickActions.tsx`: hero altında mobil Ara/WhatsApp/Konum/E-posta.

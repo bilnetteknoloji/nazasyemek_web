@@ -21,7 +21,7 @@ export function Methodology() {
         </Reveal>
       </div>
 
-      <ol className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+      <ol className="mobile-rail mt-14 md:grid gap-5 [--rail-pt:1.25rem] [--rail-item:74%] sm:grid-cols-2 lg:grid-cols-5">
         {methodology.map((stage, index) => (
           <Reveal
             as="li"

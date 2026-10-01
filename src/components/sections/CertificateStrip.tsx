@@ -31,7 +31,7 @@ export function CertificateStrip() {
           </Link>
         </Reveal>
 
-        <ul className="grid gap-3 sm:grid-cols-2">
+        <ul className="mobile-rail md:grid gap-3 [--rail-item:62%] sm:grid-cols-2">
           {certificates.map((cert, index) => (
             <Reveal
               as="li"

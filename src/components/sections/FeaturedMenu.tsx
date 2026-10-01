@@ -15,7 +15,7 @@ export function FeaturedMenu() {
         description="Her tabakta taze sebzeler, dengeli protein kaynakları ve Türk mutfağının lezzet mirasından izler taşıyoruz."
       />
 
-      <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mobile-rail mt-12 md:grid gap-6 [--rail-item:66%] sm:grid-cols-2 lg:grid-cols-4">
         {featuredDishes.map((dish, index) => (
           <Reveal
             as="li"

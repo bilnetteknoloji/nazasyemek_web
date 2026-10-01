@@ -40,17 +40,23 @@ export function Header() {
           className="flex shrink-0 items-center gap-3"
           aria-label={`${site.legalName} ana sayfa`}
         >
-          <Image
-            src="/brand/logo.png"
-            alt=""
-            width={260}
-            height={267}
-            priority
-            className={cn(
-              "w-auto transition-all duration-500 ease-[var(--ease-out-expo)]",
-              scrolled ? "h-12" : "h-16",
-            )}
-          />
+          <span className="flex flex-col items-center">
+            <Image
+              src="/brand/logo.svg"
+              alt=""
+              width={935}
+              height={960}
+              priority
+              unoptimized
+              className={cn(
+                "w-auto transition-all duration-500 ease-[var(--ease-out-expo)]",
+                scrolled ? "h-9" : "h-11",
+              )}
+            />
+            <span className="text-brand-800 mt-0.5 text-[10px] leading-none font-semibold whitespace-nowrap">
+              {site.slogan}
+            </span>
+          </span>
           <span className="sr-only">{site.legalName}</span>
         </Link>
 

@@ -99,7 +99,7 @@ export const services: Service[] = [
     description:
       "Gıdaya uygun araç filosu ve sıcaklık takipli ekipmanlarla, üretimden servise kadar zinciri kırmadan teslimat yapıyoruz.",
     icon: Truck,
-    image: "/gorseller/nazas12.webp",
+    image: "/gorseller/naz-as_foto3.webp",
     features: [
       "Gıda taşımaya uygun araçlar",
       "Sıcaklık kayıt formları",

@@ -44,7 +44,7 @@ export const aboutHero = {
     { icon: ShieldCheck, label: "ISO 22000 & Helal Belgeli" },
     { icon: Truck, label: "Termobox frigo lojistik" },
   ] as { icon: LucideIcon; label: string }[],
-  photo: photo("nazas9.webp"),
+  photo: photo("naz-as_foto1.webp"),
   captionTitle: "Kazanlarda Kaynayan Ustalık",
   captionEyebrow: "Endüstriyel Hijyen Standartları",
   captionText:

@@ -4,14 +4,23 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Mail, MapPin, Menu, Phone, X } from "lucide-react";
+import { Mail, MapPin, Phone, Smartphone, X } from "lucide-react";
 import { isNavGroup, mainNav, site } from "@/data/site";
 import { ButtonLink } from "@/components/ui/Button";
 import { SocialLinks, WhatsAppIcon } from "@/components/ui/SocialIcons";
 
+/** Alt sekme çubuğundaki "Menü" bu olayla çekmeceyi açar. */
+export const OPEN_MOBILE_NAV = "naz:open-mobile-nav";
+
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const reduced = useReducedMotion();
+
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener(OPEN_MOBILE_NAV, onOpen);
+    return () => window.removeEventListener(OPEN_MOBILE_NAV, onOpen);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -29,15 +38,6 @@ export function MobileNav() {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label="Menüyü aç"
-        aria-expanded={open}
-        className="text-brand-800 hover:bg-brand-50 rounded-full p-2.5 transition-colors lg:hidden"
-      >
-        <Menu className="size-6" aria-hidden />
-      </button>
 
       {/*
         Çekmece portal ile body'ye taşınır: <header> üzerindeki backdrop-blur,
@@ -133,7 +133,7 @@ export function MobileNav() {
                     )}
                   </nav>
 
-                  <div className="border-cream/10 shrink-0 space-y-3 border-t px-5 py-6 sm:px-8">
+                  <div className="border-cream/10 shrink-0 space-y-3 border-t px-5 pt-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-8">
                     <ButtonLink
                       href="/teklif-al"
                       variant="light"
@@ -159,6 +159,10 @@ export function MobileNav() {
                       >
                         <WhatsAppIcon className="size-4 text-[#25D366]" />
                         WhatsApp: {site.whatsappDisplay}
+                      </a>
+                      <a href={site.mobileHref} className="flex items-center gap-3">
+                        <Smartphone className="text-accent-400 size-4" aria-hidden />
+                        Mobil: {site.mobile}
                       </a>
                       <a
                         href={`mailto:${site.email}`}

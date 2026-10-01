@@ -112,7 +112,7 @@ export default async function ServiceDetailPage({
         <h2 className="font-display text-brand-900 text-2xl sm:text-3xl">
           Diğer hizmetlerimiz
         </h2>
-        <ul className="mt-8 grid gap-5 sm:grid-cols-3">
+        <ul className="mobile-rail mt-8 md:grid gap-5 [--rail-item:74%] sm:grid-cols-3">
           {others.map((item, index) => (
             <Reveal
               as="li"

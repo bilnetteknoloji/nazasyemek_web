@@ -7,7 +7,7 @@ export function AboutFigures() {
   return (
     <section className="bg-brand-600 w-full py-14 text-white sm:py-16">
       <Container>
-        <dl className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="grid grid-cols-2 gap-x-6 gap-y-9 sm:gap-10 lg:grid-cols-4">
           {aboutFigures.map((figure, index) => (
             <Reveal key={figure.label} delay={index * 0.07}>
               <figure.icon className="text-brand-200 size-7" aria-hidden />

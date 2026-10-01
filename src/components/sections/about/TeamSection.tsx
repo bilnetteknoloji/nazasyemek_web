@@ -15,7 +15,7 @@ export function TeamSection() {
         align="center"
       />
 
-      <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mobile-rail mt-14 md:grid gap-6 [--rail-item:74%] sm:grid-cols-2 lg:grid-cols-4">
         {teamRoles.map((member, index) => (
           <Reveal
             as="li"

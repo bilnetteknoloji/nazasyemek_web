@@ -1,5 +1,5 @@
 /**
- * Kaynak varlıkları (logo ekran görüntüsü, fotoğraflar, videolar, sertifika PDF'leri)
+ * Kaynak varlıkları (logo, fotoğraflar, videolar, sertifika PDF'leri)
  * public/ altına web'e uygun biçimde hazırlar ve src/data/media.ts manifestosunu üretir.
  *
  * Çalıştırma: npm run assets
@@ -10,6 +10,7 @@ import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
 import sharp from "sharp";
+import potrace from "potrace";
 
 const run = promisify(execFile);
 
@@ -17,7 +18,9 @@ const ROOT = path.resolve(import.meta.dirname, "..");
 const SRC_ROOT = path.resolve(ROOT, "..");
 const SRC_PHOTOS = path.join(SRC_ROOT, "görseller");
 const SRC_DOCS = path.join(SRC_ROOT, "belgeler");
-const SRC_LOGO = "/Users/edmr/Ekran Görüntüleri/Ekran Resmi 2026-09-10 10.06.18.png";
+// Müşteriden gelen yeni varlıklar (2026-10-01): yazısız logo ve üç fotoğraf.
+const SRC_NEW = path.join(SRC_PHOTOS, "yeni");
+const SRC_LOGO = path.join(SRC_NEW, "naz-as_logo_yazisiz.png");
 
 const PUB = path.join(ROOT, "public");
 const OUT_BRAND = path.join(PUB, "brand");
@@ -25,7 +28,8 @@ const OUT_PHOTOS = path.join(PUB, "gorseller");
 const OUT_VIDEO = path.join(PUB, "video");
 const OUT_DOCS = path.join(PUB, "belgeler");
 
-const BRAND_BROWN = { r: 0x4a, g: 0x2c, b: 0x1d };
+// Logonun kendi kahvesi (kaynak görselden ölçüldü).
+const BRAND_BROWN = { r: 0x5f, g: 0x41, b: 0x32 };
 const CREAM = { r: 0xfb, g: 0xf7, b: 0xf1 };
 
 const ensure = (dir) => fs.mkdir(dir, { recursive: true });
@@ -33,7 +37,7 @@ const ensure = (dir) => fs.mkdir(dir, { recursive: true });
 /* ------------------------------------------------------------------ logo */
 
 /**
- * Ekran görüntüsü hem koyu bir pencere çerçevesi hem de beyaz boşluk içeriyor.
+ * Kaynak görselin kenarında ince koyu bir çerçeve ve beyaz boşluk var.
  * Önce çerçeve+boşluk kırpılır, sonra parlaklıktan bir alfa maskesi çıkarılır;
  * böylece logo istenen renge boyanabilir (koyu zemin için beyaz varyant).
  */
@@ -125,6 +129,23 @@ async function buildLogo() {
   await fs.writeFile(path.join(OUT_BRAND, "logo.png"), await tinted(BRAND_BROWN, width));
   await fs.writeFile(path.join(OUT_BRAND, "logo-light.png"), await tinted(CREAM, width));
 
+  // Vektör sürüm: alfa maskesi potrace ile izlenir (header bunu kullanır).
+  const maskPng = await sharp(alpha, { raw: { width: cw, height: ch, channels: 1 } })
+    .negate()
+    .png()
+    .toBuffer();
+  const trace = (color) =>
+    new Promise((resolve, reject) =>
+      potrace.trace(
+        maskPng,
+        { color, background: "transparent", threshold: 128, turdSize: 4, optTolerance: 0.3 },
+        (err, svg) => (err ? reject(err) : resolve(svg)),
+      ),
+    );
+  const hex = ({ r, g, b }) => `#${[r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("")}`;
+  await fs.writeFile(path.join(OUT_BRAND, "logo.svg"), await trace(hex(BRAND_BROWN)));
+  await fs.writeFile(path.join(OUT_BRAND, "logo-light.svg"), await trace(hex(CREAM)));
+
   // Favicon / uygulama ikonları: markanın kahve zemini üzerine krem logo.
   const iconMark = await tinted(CREAM, 400);
   for (const [file, size, dir] of [
@@ -153,7 +174,7 @@ async function buildLogo() {
       .toFile(path.join(dir, file));
   }
 
-  console.log(`✓ logo: ${cw}×${ch} kırpıldı (çerçeve ${left}/${top}), 5 varyant üretildi`);
+  console.log(`✓ logo: ${cw}×${ch} kırpıldı (çerçeve ${left}/${top}), PNG + SVG varyantları üretildi`);
   return { width: cw, height: ch };
 }
 
@@ -197,6 +218,13 @@ const PHOTO_META = {
   nazas20: { alt: "Davet ve organizasyon servisi", tag: "organizasyon" },
 };
 
+// `yeni/` klasöründeki fotoğraflar; sayfalarda `photo("naz-as_foto1.webp")` ile kullanılır.
+const NEW_PHOTO_META = {
+  "naz-as_foto1": { alt: "Servis hattında günün yemekleri", tag: "mutfak" },
+  "naz-as_foto2": { alt: "Üretim mutfağında sıcak yemek hazırlığı", tag: "mutfak" },
+  "naz-as_foto3": { alt: "Kazanda çorba hazırlığı", tag: "mutfak" },
+};
+
 async function buildPhotos() {
   await ensure(OUT_PHOTOS);
   const files = (await fs.readdir(SRC_PHOTOS))
@@ -214,6 +242,14 @@ async function buildPhotos() {
       .webp({ quality: 82 })
       .toFile(target);
     const meta = PHOTO_META[key] ?? { alt: "NAZ-AŞ toplu yemek hizmetleri", tag: "servis" };
+    out.push({ src: `/gorseller/${slug}.webp`, width: info.width, height: info.height, ...meta });
+  }
+  for (const [slug, meta] of Object.entries(NEW_PHOTO_META)) {
+    const info = await sharp(path.join(SRC_NEW, `${slug}.jpg`))
+      .rotate()
+      .resize({ width: 1800, height: 1800, fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 82 })
+      .toFile(path.join(OUT_PHOTOS, `${slug}.webp`));
     out.push({ src: `/gorseller/${slug}.webp`, width: info.width, height: info.height, ...meta });
   }
   console.log(`✓ fotoğraf: ${out.length} görsel webp'e dönüştürüldü`);
@@ -459,19 +495,25 @@ async function buildGallery(videos) {
       items.push({ type: "photo", group, alt, ...(await writeGalleryPhoto(source, slug)) });
     }
 
-    // 2) Mevcut nazas* fotoğrafları (orijinal JPEG'lerden; public/gorseller/*.webp filigransız kalır)
+    // 2) Mevcut nazas* fotoğrafları (orijinal JPEG'lerden; public/gorseller/*.webp filigransız kalır).
+    //    Bazıları galeriden çıkarıldı, "Toplu yemek üretimi" yeni fotoğrafla değiştirildi.
+    const GALLERY_SKIP = new Set(["nazas9", "nazas12"]);
+    const GALLERY_SOURCE_OVERRIDE = { nazas10: "naz-as_foto1" };
     const files = (await fs.readdir(SRC_PHOTOS))
       .filter((f) => /\.jpe?g$/i.test(f))
       .sort((a, b) => a.localeCompare(b, "tr", { numeric: true }));
     for (const file of files) {
       const key = path.basename(file, path.extname(file));
-      const slug = key === "1" ? "nazas1" : key;
+      if (GALLERY_SKIP.has(key)) continue;
+      const override = GALLERY_SOURCE_OVERRIDE[key];
+      const slug = override ?? (key === "1" ? "nazas1" : key);
+      const source = override ? path.join(SRC_NEW, `${override}.jpg`) : path.join(SRC_PHOTOS, file);
       const meta = PHOTO_META[key] ?? { alt: "NAZ-AŞ toplu yemek hizmetleri", tag: "servis" };
       items.push({
         type: "photo",
         group: meta.tag,
         alt: meta.alt,
-        ...(await writeGalleryPhoto(path.join(SRC_PHOTOS, file), slug)),
+        ...(await writeGalleryPhoto(source, slug)),
       });
     }
 

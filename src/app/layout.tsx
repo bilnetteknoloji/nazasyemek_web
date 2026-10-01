@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFab } from "@/components/ui/WhatsAppFab";
+import { MobileTabBar } from "@/components/layout/MobileTabBar";
 import { MotionProvider } from "@/components/MotionProvider";
 import { organizationJsonLd } from "@/lib/jsonld";
 import { site } from "@/data/site";
@@ -23,6 +24,11 @@ const playfair = Playfair_Display({
   style: ["normal", "italic"],
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -71,6 +77,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <Footer />
           <WhatsAppFab />
+          <MobileTabBar />
         </MotionProvider>
         <script
           type="application/ld+json"

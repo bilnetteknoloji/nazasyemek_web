@@ -2,6 +2,7 @@ import { ArrowRight, BadgeCheck, Factory } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
 import { HeroSlider } from "./HeroSlider";
 import { QuickStats } from "./QuickStats";
+import { QuickActions } from "./QuickActions";
 import { heroBadge, heroSlides } from "@/data/home";
 
 /**
@@ -68,6 +69,7 @@ export function Hero() {
         </div>
       </div>
 
+      <QuickActions />
       <QuickStats />
     </section>
   );
