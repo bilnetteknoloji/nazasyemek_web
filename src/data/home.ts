@@ -147,7 +147,7 @@ export const productionChain: {
     text: "Kazanlarımızda buharlı ve konveksiyonel pişirme teknikleriyle besin değerleri korunur. Pişirme sonrası sıcaklık kritik noktalarda izlenir ve kayıt altına alınır.",
     footnoteIcon: Thermometer,
     footnote: "+65 °C ve üzeri porsiyonlama güvenliği",
-    photo: photo("nazas10.webp"),
+    photo: photo("naz-as_foto3.webp"),
   },
   {
     step: "03",
@@ -157,7 +157,7 @@ export const productionChain: {
     text: "Özel yalıtımlı termobox kaplar ve sıcaklık takipli araçlarımızla yemekler kurumunuza tam vaktinde ve sofraya hazır sıcaklıkta teslim edilir.",
     footnoteIcon: Snowflake,
     footnote: "Kırılmayan soğuk/sıcak zincir",
-    photo: photo("nazas12.webp"),
+    photo: photo("/gallery6.webp"),
   },
 ];
 

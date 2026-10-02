@@ -23,6 +23,8 @@ export const site = {
   name: "NAZ-AŞ",
   legalName: "NAZ-AŞ YEMEK",
   tagline: "Aş'a Lezzet Katar",
+  /** Header'da logonun altındaki slogan. */
+  slogan: "Aş'a Lezzet Katıyoruz",
   description:
     "Fabrika, işyeri, okul ve kurumlara ISO belgeli mutfağımızda hazırlanan günlük tabldot, kumanya ve organizasyon yemeği hizmeti.",
   // Yayında NEXT_PUBLIC_SITE_URL ile ezilir; canonical/sitemap/OG adresleri buradan üretilir.
@@ -37,11 +39,15 @@ export const site = {
   },
   phone: "0212 470 16 29",
   phoneHref: "tel:+902124701629",
-  whatsapp: "905454701629", // wa.me biçimi (ülke kodu, başında + ve 0 yok)
-  whatsappDisplay: "0545 470 16 29",
-  // Yalnızca iletişim sayfasında gösterilir.
-  mobile: "0543 205 86 86",
-  mobileHref: "tel:+905432058686",
+  // Son üç hane (629) tuş takımında N-A-Z; iletişim sayfası ve footer'da PhoneNaz ile gösterilir (mobil hat da).
+  phoneDisplay: "0212 470 1 629",
+  phoneMnemonic: "NAZ",
+  whatsapp: "905432058686", // wa.me biçimi (ülke kodu, başında + ve 0 yok)
+  whatsappDisplay: "0543 205 86 86",
+  // İkinci mobil hat — iletişim sayfasında ve mobil menüde gösterilir.
+  mobile: "0545 470 16 29",
+  mobileHref: "tel:+905454701629",
+  mobileDisplay: "0545 470 1 629",
   email: "info@nazasyemek.com",
   // Formlar (Hızlı Ön Hesaplama, Teklif) bu adrese FormSubmit ile mail olarak düşer.
   formEndpoint:

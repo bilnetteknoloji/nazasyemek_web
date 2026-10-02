@@ -13,7 +13,7 @@ import { cn } from "@/lib/cn";
 
 type IconProps = { className?: string };
 
-function InstagramIcon({ className }: IconProps) {
+export function InstagramIcon({ className }: IconProps) {
   // Aynı sayfada birden fazla kopya olabilir (header, footer, iletişim);
   // gizli bir kopyadaki gradyana referans verilmesin diye id benzersiz.
   const id = useId();

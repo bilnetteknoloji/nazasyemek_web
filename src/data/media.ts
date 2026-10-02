@@ -169,6 +169,34 @@ export const photos: Photo[] = [
     "height": 1600,
     "alt": "Davet ve organizasyon servisi",
     "tag": "organizasyon"
+  },
+  {
+    "src": "/gorseller/naz-as_foto1.webp",
+    "width": 768,
+    "height": 1024,
+    "alt": "Servis hattında günün yemekleri",
+    "tag": "mutfak"
+  },
+  {
+    "src": "/gorseller/naz-as_foto2.webp",
+    "width": 768,
+    "height": 1024,
+    "alt": "Üretim mutfağında sıcak yemek hazırlığı",
+    "tag": "mutfak"
+  },
+  {
+    "src": "/gorseller/naz-as_foto3.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "Kazanda çorba hazırlığı",
+    "tag": "mutfak"
+  },
+  {
+    "src": "/gorseller/gallery6.webp",
+    "width": 1280,
+    "height": 853,
+    "alt": "Kapak kapatma makinesinde hijyenik paketleme",
+    "tag": "kumanya"
   }
 ];
 
@@ -375,29 +403,11 @@ export const gallery: GalleryItem[] = [
   {
     "type": "photo",
     "group": "mutfak",
-    "alt": "Mutfak ekibi çalışırken",
-    "src": "/gorseller/galeri/nazas9.webp",
-    "thumb": "/gorseller/galeri/thumb/nazas9.webp",
-    "width": 768,
-    "height": 1024
-  },
-  {
-    "type": "photo",
-    "group": "mutfak",
     "alt": "Toplu yemek üretimi",
-    "src": "/gorseller/galeri/nazas10.webp",
-    "thumb": "/gorseller/galeri/thumb/nazas10.webp",
+    "src": "/gorseller/galeri/naz-as_foto1.webp",
+    "thumb": "/gorseller/galeri/thumb/naz-as_foto1.webp",
     "width": 768,
     "height": 1024
-  },
-  {
-    "type": "photo",
-    "group": "mutfak",
-    "alt": "Porsiyonlama hattı",
-    "src": "/gorseller/galeri/nazas12.webp",
-    "thumb": "/gorseller/galeri/thumb/nazas12.webp",
-    "width": 1200,
-    "height": 1600
   },
   {
     "type": "photo",
@@ -623,6 +633,15 @@ export const gallery: GalleryItem[] = [
     "thumb": "/gorseller/galeri/thumb/nazas20.webp",
     "width": 1531,
     "height": 1600
+  },
+  {
+    "type": "video",
+    "group": "video",
+    "alt": "NAZ-AŞ Yemek tanıtım filmi",
+    "src": "/video/tanitim.mp4",
+    "thumb": "/gorseller/galeri/poster/tanitim.webp",
+    "width": 540,
+    "height": 960
   },
   {
     "type": "video",

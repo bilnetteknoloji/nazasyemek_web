@@ -31,7 +31,7 @@ export function WhyUs() {
         align="center"
       />
 
-      <ul className="mt-14 grid gap-6 md:grid-cols-3">
+      <ul className="mobile-rail mt-14 md:grid gap-6 md:grid-cols-3">
         {advantages.map((item, index) => (
           <Reveal
             as="li"

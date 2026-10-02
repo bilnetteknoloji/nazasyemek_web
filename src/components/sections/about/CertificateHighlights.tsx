@@ -26,7 +26,7 @@ export function CertificateHighlights({ limit = 6 }: { limit?: number }) {
         </Reveal>
       </div>
 
-      <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mobile-rail mt-12 md:grid gap-5 [--rail-item:70%] sm:grid-cols-2 lg:grid-cols-3">
         {certificates.slice(0, limit).map((cert, index) => (
           <Reveal
             as="li"

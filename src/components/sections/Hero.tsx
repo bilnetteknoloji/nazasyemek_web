@@ -2,6 +2,7 @@ import { ArrowRight, BadgeCheck, Factory } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
 import { HeroSlider } from "./HeroSlider";
 import { QuickStats } from "./QuickStats";
+import { QuickActions } from "./QuickActions";
 import { heroBadge, heroSlides } from "@/data/home";
 
 /**
@@ -49,7 +50,7 @@ export function Hero() {
 
             <div className="flex flex-wrap items-center gap-4 pt-1">
               <ButtonLink href="/teklif-al" size="lg">
-                Kurumsal Teklif Alın
+                Teklif Alın
                 <ArrowRight
                   className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                   aria-hidden
@@ -68,6 +69,7 @@ export function Hero() {
         </div>
       </div>
 
+      <QuickActions />
       <QuickStats />
     </section>
   );

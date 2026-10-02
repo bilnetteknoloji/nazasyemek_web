@@ -13,7 +13,7 @@ export function Process() {
         align="center"
       />
 
-      <ol className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+      <ol className="mobile-rail mt-14 md:grid gap-6 [--rail-pt:1.25rem] [--rail-item:70%] sm:grid-cols-2 lg:grid-cols-5">
         {processSteps.map((step, index) => (
           <Reveal
             as="li"

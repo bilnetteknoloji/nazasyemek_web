@@ -23,7 +23,7 @@ export function ProductionChain() {
         </Reveal>
       </div>
 
-      <ol className="mt-14 grid gap-6 md:grid-cols-3">
+      <ol className="mobile-rail mt-14 md:grid gap-6 md:grid-cols-3">
         {productionChain.map((stage, index) => (
           <Reveal
             as="li"

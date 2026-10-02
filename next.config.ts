@@ -1,12 +1,14 @@
 import type { NextConfig } from "next";
 
 /**
- * Statik yayın (Node.js'siz paylaşımlı hosting) için yapılandırma.
+ * İki yayın biçimi:
+ * - `npm run build` + `npm start` → Node.js sunucusu (GoDaddy, main dalından derler).
+ *   Turbopack PostCSS için yerel port açıyor, GoDaddy buna izin vermiyor
+ *   ("binding to a port … Permission denied") → bu derleme `--webpack` ile yapılır.
+ * - `npm run build:root` / `build:subdir` → STATIC_EXPORT=1 ile statik `out/` klasörü
+ *   (Node.js'siz paylaşımlı hosting).
  *
- * `output: "export"` tüm sayfaları önceden HTML olarak üretir; sonuç `out/`
- * klasörüne çıkar ve doğrudan web köküne yüklenir.
- *
- * Bunun bedeli:
+ * Statik export'un bedeli:
  * - Sunucu tarafı rota (route handler) çalışmaz — teklif formu harici bir
  *   servise gönderir (NEXT_PUBLIC_FORM_ENDPOINT).
  * - next/image optimizasyonu devre dışıdır (`unoptimized`), görseller
@@ -14,9 +16,7 @@ import type { NextConfig } from "next";
  * - Güvenlik başlıkları Next tarafından eklenemez; `public/.htaccess`
  *   içinde Apache/LiteSpeed için tanımlıdır.
  *
- * Hosting Node.js desteklemeye başlarsa: `output` satırını "standalone" yapın,
- * `trailingSlash`/`images.unoptimized` kaldırın ve `src/app/api/teklif/route.ts`
- * dosyasını geri ekleyin (git geçmişinde mevcut).
+ * Formlar her iki biçimde de FormSubmit'e gider; Node derlemesi de aynı ayarları kullanır.
  */
 /**
  * Site alt klasöre yüklenecekse (ör. https://alanadi/out/) derlerken
@@ -25,8 +25,10 @@ import type { NextConfig } from "next";
  */
 const basePath = process.env.NEXT_BASE_PATH || "";
 
+const staticExport = process.env.STATIC_EXPORT === "1";
+
 const nextConfig: NextConfig = {
-  output: "export",
+  ...(staticExport ? { output: "export" as const } : {}),
   ...(basePath ? { basePath, assetPrefix: basePath } : {}),
   // İstemcide de gerekli: src/lib/asset.ts public varlık yollarını buna göre üretir.
   env: { NEXT_PUBLIC_BASE_PATH: basePath },

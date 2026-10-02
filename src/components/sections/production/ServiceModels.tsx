@@ -19,7 +19,7 @@ export function ServiceModels() {
         description="İster kendi tesisinizde mutfak kuralım, ister merkez mutfağımızdan sıcak ve taze sevk edelim."
       />
 
-      <ul className="mt-14 grid gap-6 lg:grid-cols-2">
+      <ul className="mobile-rail mt-14 md:grid gap-6 lg:grid-cols-2">
         {services.map((service, index) => (
           <Reveal
             as="li"

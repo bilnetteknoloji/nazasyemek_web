@@ -24,7 +24,7 @@ export function ServicesGrid({
         description="Vardiya düzeninize, mekânınıza ve öğün sayınıza göre planlanan hizmet modelleri. Tümü aynı üretim ve hijyen standardıyla yürütülür."
       />
 
-      <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mobile-rail mt-14 md:grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {list.map((service, index) => (
           <Reveal
             as="li"

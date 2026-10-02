@@ -34,7 +34,7 @@ export const productionHero = {
     { value: "65 °C+", label: "Termobox Dağıtım" },
     { value: "%100", label: "Laboratuvar Onayı" },
   ],
-  photo: photo("nazas10.webp"),
+  photo: photo("naz-as_foto2.webp"),
   overlayTitle: "ISO 22000 & HACCP",
   overlayText: "Tam steril, kontrollü mutfak koridoru.",
 };

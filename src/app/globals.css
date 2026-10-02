@@ -78,6 +78,7 @@ html {
 }
 
 body {
+  -webkit-tap-highlight-color: transparent;
   background-color: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
@@ -104,6 +105,43 @@ body {
   letter-spacing: -0.015em;
 }
 
+
+/* Mobilde alt sekme çubuğu içeriğin üstüne binmesin. */
+@media (max-width: 1023.98px) {
+  body {
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Mobil kart rayı: md altında kartlar yan yana, yatay kaydırılır (snap);
+   md ve üstünde öğenin kendi grid sınıfları geçerli kalır. */
+@utility mobile-rail {
+  @media (max-width: 767.98px) {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.25rem;
+    margin-inline: -1.25rem;
+    padding: var(--rail-pt, 0.25rem) 1.25rem 1rem;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    & > * {
+      flex: 0 0 var(--rail-item, 82%);
+      scroll-snap-align: start;
+    }
+  }
+  @media (min-width: 640px) and (max-width: 767.98px) {
+    scroll-padding-inline: 2rem;
+    margin-inline: -2rem;
+    padding-inline: 2rem;
+    & > * {
+      flex-basis: calc(var(--rail-item, 82%) * 0.6);
+    }
+  }
+}
 
 /* Görünür olunca beliren bölümler.
    Temel durum GÖRÜNÜR'dür; gizleme yalnızca JS mount olduktan sonra eklenir,

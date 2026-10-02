@@ -1,6 +1,7 @@
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { SocialLinks } from "@/components/ui/SocialIcons";
+import { PhoneNaz } from "@/components/ui/PhoneNaz";
 import { contactCards } from "@/data/contact";
 import { cn } from "@/lib/cn";
 
@@ -8,7 +9,7 @@ import { cn } from "@/lib/cn";
 export function ContactCards() {
   return (
     <Section className="bg-cream pt-14 sm:pt-20">
-      <ul className="grid gap-6 lg:grid-cols-3">
+      <ul className="mobile-rail md:grid gap-6 lg:grid-cols-3">
         {contactCards.map((card, index) => (
           <Reveal
             as="li"
@@ -41,10 +42,16 @@ export function ContactCards() {
                       href={link.href}
                       target={link.external ? "_blank" : undefined}
                       rel={link.external ? "noopener noreferrer" : undefined}
-                      className="text-brand-800 hover:text-accent-500 flex items-center gap-2 text-sm font-semibold transition-colors"
+                      className={cn(
+                        "text-brand-800 hover:text-accent-500 flex gap-2 text-sm font-semibold transition-colors",
+                        link.naz ? "items-start" : "items-center",
+                      )}
                     >
-                      <link.icon className={cn("size-4 shrink-0", link.iconClassName)} />
+                      <link.icon
+                        className={cn("size-4 shrink-0", link.naz && "mt-0.5", link.iconClassName)}
+                      />
                       {link.label}
+                      {link.naz ? <PhoneNaz {...link.naz} /> : null}
                     </a>
                   </li>
                 ))}

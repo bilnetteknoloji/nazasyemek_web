@@ -21,13 +21,13 @@ const plusTone = {
 export function CapacityStats() {
   return (
     <Section className="bg-cream">
-      <Reveal className="bg-container shadow-soft rounded-[2.5rem] p-8 lg:p-12">
-        <dl className="divide-line-strong/40 md:divide-line-strong/40 grid grid-cols-1 gap-8 divide-y md:grid-cols-2 md:divide-y-0 lg:grid-cols-4 lg:divide-x">
+      <Reveal className="bg-container shadow-soft rounded-[2rem] p-6 sm:rounded-[2.5rem] sm:p-8 lg:p-12">
+        <dl className="divide-line-strong/40 grid grid-cols-2 gap-x-5 gap-y-8 md:gap-8 lg:grid-cols-4 lg:divide-x">
           {capacity.map((item, index) => (
             <div
               key={item.label}
               className={cn(
-                "flex flex-col gap-2 pt-6 md:pt-0",
+                "flex flex-col gap-2",
                 index > 0 && "lg:pl-8",
               )}
             >
@@ -37,7 +37,7 @@ export function CapacityStats() {
               <dd>
                 <span
                   className={cn(
-                    "font-display text-4xl leading-none font-bold sm:text-5xl",
+                    "font-display text-3xl leading-none font-bold sm:text-5xl",
                     valueTone[item.tone],
                   )}
                 >
