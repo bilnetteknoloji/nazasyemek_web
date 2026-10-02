@@ -190,6 +190,13 @@ export const photos: Photo[] = [
     "height": 1600,
     "alt": "Kazanda çorba hazırlığı",
     "tag": "mutfak"
+  },
+  {
+    "src": "/gorseller/gallery6.webp",
+    "width": 1280,
+    "height": 853,
+    "alt": "Kapak kapatma makinesinde hijyenik paketleme",
+    "tag": "kumanya"
   }
 ];
 
@@ -626,6 +633,15 @@ export const gallery: GalleryItem[] = [
     "thumb": "/gorseller/galeri/thumb/nazas20.webp",
     "width": 1531,
     "height": 1600
+  },
+  {
+    "type": "video",
+    "group": "video",
+    "alt": "NAZ-AŞ Yemek tanıtım filmi",
+    "src": "/video/tanitim.mp4",
+    "thumb": "/gorseller/galeri/poster/tanitim.webp",
+    "width": 540,
+    "height": 960
   },
   {
     "type": "video",

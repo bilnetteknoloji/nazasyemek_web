@@ -270,3 +270,16 @@ Masaüstü tasarıma dokunulmadı; yalnızca lg altı değişti. (Tam yeniden ta
 - `layout/MobileTabBar.tsx`: Ana Sayfa · Hizmetler · Teklif Al · WhatsApp · Menü. "Menü" `OPEN_MOBILE_NAV` olayıyla mevcut `MobileNav` çekmecesini açar (header'daki hamburger kaldırıldı). WhatsApp FAB yalnız lg+.
 - `mobile-rail` utility (globals.css): md altında kartlar yan yana kayar. Öğede `grid` yerine `md:grid` kullanın, yoksa `grid` ezer. Kart genişliği `[--rail-item:70%]`, üst boşluk `[--rail-pt:1.25rem]`.
 - `sections/QuickActions.tsx`: hero altında mobil Ara/WhatsApp/Konum/E-posta.
+
+## Tanıtım videosu + Instagram (2026-10-02)
+
+- Kaynak `../görseller/yeni/naz-as_tanitim.mp4` (1080×1920, 110 sn, 171 MB) → `public/video/tanitim.mp4`
+  (540×960 @ 1,4 Mbps ≈ 21 MB). avconvert hazır ayarlarında bitrate seçilemediği için
+  `scripts/compress-video.swift` (AVFoundation) kullanılır; `GALLERY_VIDEOS` girdisinde `compress` alanı.
+  Hedef dosya varsa yeniden kodlanmaz — değiştirmek için silin.
+- `layout/WelcomeVideo.tsx`: ilk ziyarette 1,2 sn sonra açılan küçük dikey pop-up, altında `site.slogan`.
+  Ziyaretçi başına bir kez (`localStorage["naz-welcome-video"]`, kapatınca yazılır). Video galeride de
+  (Videolar grubunda ilk).
+- `sections/InstagramFeed.tsx` (`/galeri`): `data/instagram.ts` → `instagramPosts` permalink'leri resmi
+  embed.js ile gömülür. Liste boşken yalnızca takip kartı. Story'ler resmi yolla gömülemez.
+- `npm run assets` `public/video/hero-7745.mp4`'ü her seferinde yeniden kodluyor; içerik aynıysa `git checkout` ile geri alın.

@@ -39,11 +39,15 @@ export const site = {
   },
   phone: "0212 470 16 29",
   phoneHref: "tel:+902124701629",
+  // Son üç hane (629) tuş takımında N-A-Z; iletişim sayfası ve footer'da PhoneNaz ile gösterilir (mobil hat da).
+  phoneDisplay: "0212 470 1 629",
+  phoneMnemonic: "NAZ",
   whatsapp: "905432058686", // wa.me biçimi (ülke kodu, başında + ve 0 yok)
   whatsappDisplay: "0543 205 86 86",
   // İkinci mobil hat — iletişim sayfasında ve mobil menüde gösterilir.
   mobile: "0545 470 16 29",
   mobileHref: "tel:+905454701629",
+  mobileDisplay: "0545 470 1 629",
   email: "info@nazasyemek.com",
   // Formlar (Hızlı Ön Hesaplama, Teklif) bu adrese FormSubmit ile mail olarak düşer.
   formEndpoint:

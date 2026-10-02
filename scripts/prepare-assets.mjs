@@ -225,6 +225,11 @@ const NEW_PHOTO_META = {
   "naz-as_foto3": { alt: "Kazanda çorba hazırlığı", tag: "mutfak" },
 };
 
+// `Son Fotolar` içinden kartlarda filigransız kullanılanlar (galerideki kopyası filigranlı).
+const SON_FOTOLAR_PHOTOS = {
+  gallery6: { alt: "Kapak kapatma makinesinde hijyenik paketleme", tag: "kumanya" },
+};
+
 async function buildPhotos() {
   await ensure(OUT_PHOTOS);
   const files = (await fs.readdir(SRC_PHOTOS))
@@ -246,6 +251,14 @@ async function buildPhotos() {
   }
   for (const [slug, meta] of Object.entries(NEW_PHOTO_META)) {
     const info = await sharp(path.join(SRC_NEW, `${slug}.jpg`))
+      .rotate()
+      .resize({ width: 1800, height: 1800, fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 82 })
+      .toFile(path.join(OUT_PHOTOS, `${slug}.webp`));
+    out.push({ src: `/gorseller/${slug}.webp`, width: info.width, height: info.height, ...meta });
+  }
+  for (const [slug, meta] of Object.entries(SON_FOTOLAR_PHOTOS)) {
+    const info = await sharp(path.join(SRC_PHOTOS, "Son Fotolar", `${slug}.png`))
       .rotate()
       .resize({ width: 1800, height: 1800, fit: "inside", withoutEnlargement: true })
       .webp({ quality: 82 })
@@ -405,7 +418,16 @@ const GALLERY_PHOTOS = [
   { file: "IMG_7705.HEIC", group: "servis", alt: "Tabldot servis tepsisi" },
 ];
 
+// `dir` verilmezse Son Fotolar. `compress` verilirse avconvert yerine scripts/compress-video.swift
+// (bitrate seçilebiliyor): tanıtım filmi 171 MB (1080×1920, 110 sn) → 540×960 @ 1,4 Mbps ≈ 21 MB.
 const GALLERY_VIDEOS = [
+  {
+    file: "naz-as_tanitim.mp4",
+    dir: SRC_NEW,
+    slug: "tanitim",
+    alt: "NAZ-AŞ Yemek tanıtım filmi",
+    compress: { longEdge: 960, kbps: 1400 },
+  },
   { file: "IMG_7680.MOV", slug: "galeri-7680", alt: "Üretim mutfağından görüntüler" },
   { file: "IMG_7745 2.mov", slug: "hero-7745", alt: "Porsiyonlanmış öğün kapları" },
 ];
@@ -520,13 +542,22 @@ async function buildGallery(videos) {
     // 3) Videolar: yeni MOV'lar H.264'e çevrilir, mevcut mp4'ler kullanılır.
     //    Filigran dosyaya işlenemez (ffmpeg yok) — arayüz CSS ile gösterir.
     const videoSources = [];
-    for (const { file, slug, alt } of GALLERY_VIDEOS) {
+    for (const { file, dir, slug, alt, compress } of GALLERY_VIDEOS) {
       const target = path.join(OUT_VIDEO, `${slug}.mp4`);
+      const source = path.join(dir ?? SRC_BACKGROUNDS, file);
       const exists = await fs.stat(target).then(() => true, () => false);
-      if (!exists) {
+      if (!exists && compress) {
+        await run("swift", [
+          path.join(ROOT, "scripts", "compress-video.swift"),
+          source,
+          target,
+          String(compress.longEdge),
+          String(compress.kbps),
+        ]);
+      } else if (!exists) {
         await run("avconvert", [
           "--preset", "Preset1920x1080",
-          "--source", path.join(SRC_BACKGROUNDS, file),
+          "--source", source,
           "--output", target,
           "--replace",
         ]);

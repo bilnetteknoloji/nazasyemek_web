@@ -53,7 +53,7 @@ export function Header() {
                 scrolled ? "h-9" : "h-11",
               )}
             />
-            <span className="text-brand-800 mt-0.5 text-[10px] leading-none font-semibold whitespace-nowrap">
+            <span className="mt-0.5 text-[10px] leading-none font-extrabold whitespace-nowrap text-red-600">
               {site.slogan}
             </span>
           </span>

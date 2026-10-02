@@ -3,6 +3,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { Section } from "@/components/ui/Section";
 import { GalleryGrid } from "@/components/sections/GalleryGrid";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { InstagramFeed } from "@/components/sections/InstagramFeed";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { photos } from "@/data/media";
@@ -30,6 +31,10 @@ export default function GalleryPage() {
 
       <Section className="pt-14 sm:pt-20">
         <GalleryGrid />
+      </Section>
+
+      <Section className="bg-cream-deep">
+        <InstagramFeed />
       </Section>
 
       <CtaBand />

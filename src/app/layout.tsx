@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFab } from "@/components/ui/WhatsAppFab";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
+import { WelcomeVideo } from "@/components/layout/WelcomeVideo";
 import { MotionProvider } from "@/components/MotionProvider";
 import { organizationJsonLd } from "@/lib/jsonld";
 import { site } from "@/data/site";
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Footer />
           <WhatsAppFab />
           <MobileTabBar />
+          <WelcomeVideo />
         </MotionProvider>
         <script
           type="application/ld+json"

@@ -50,7 +50,7 @@ export function Hero() {
 
             <div className="flex flex-wrap items-center gap-4 pt-1">
               <ButtonLink href="/teklif-al" size="lg">
-                Kurumsal Teklif Alın
+                Teklif Alın
                 <ArrowRight
                   className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                   aria-hidden

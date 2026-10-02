@@ -52,6 +52,8 @@ export const contactCards: {
     /** İkona özel renk (ör. WhatsApp marka yeşili). */
     iconClassName?: string;
     label: string;
+    /** Etiketten sonra PhoneNaz ile gösterilecek numara (son üç hane altında NAZ). */
+    naz?: { display: string; label: string };
     href: string;
     external?: boolean;
   }[];
@@ -62,7 +64,12 @@ export const contactCards: {
     title: "Üretim Tesisi & Yönetim",
     lines: [site.address.full],
     links: [
-      { icon: Phone, label: site.phone, href: site.phoneHref },
+      {
+        icon: Phone,
+        label: "",
+        naz: { display: site.phoneDisplay, label: site.phone },
+        href: site.phoneHref,
+      },
       { icon: Mail, label: site.email, href: `mailto:${site.email}` },
     ],
   },
@@ -73,14 +80,24 @@ export const contactCards: {
     lines: ["Teklif, menü ve keşif talepleriniz için en hızlı kanal."],
     links: [
       {
+        icon: Phone,
+        label: "Sabit hat:",
+        naz: { display: site.phoneDisplay, label: site.phone },
+        href: site.phoneHref,
+      },
+      {
+        icon: Smartphone,
+        label: "Mobil / GSM:",
+        naz: { display: site.mobileDisplay, label: site.mobile },
+        href: site.mobileHref,
+      },
+      {
         icon: WhatsAppIcon,
         iconClassName: "text-[#25D366]",
         label: `WhatsApp: ${site.whatsappDisplay}`,
         href: `https://wa.me/${site.whatsapp}`,
         external: true,
       },
-      { icon: Smartphone, label: `Mobil / GSM: ${site.mobile}`, href: site.mobileHref },
-      { icon: Phone, label: `Sabit hat: ${site.phone}`, href: site.phoneHref },
     ],
   },
   {
