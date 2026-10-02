@@ -46,3 +46,8 @@ next-env.d.ts
 
 # yayın paketleri (out/ zip'leri) — depoya girmez
 *.zip
+
+# Yerel asistan notları (repoya girmez)
+CLAUDE.md
+AGENTS.md
+.claude/

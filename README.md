@@ -26,10 +26,21 @@ değiştirdikten sonra yeniden derlemek gerekir.
 | `NEXT_PUBLIC_FORM_ENDPOINT` | Form çalışsın diye evet | Teklif formunun POST edeceği harici servis adresi. Boşsa form gönderim yapmaz, ziyaretçiye telefon ve e-posta gösterir. |
 | `NEXT_PUBLIC_FORM_KEY` | Servise göre | Web3Forms `access_key`. Formspree'de gerekmez. |
 
-## Yayınlama — statik hosting
+## Yayınlama — nazasyemek.com (Node.js)
 
-Site **statik olarak** üretilir (`output: "export"`); Node.js çalıştırmayan
-paylaşımlı hosting'lerde çalışır.
+Canlı site **https://nazasyemek.com**. Hosting GitHub'daki `main` dalını çeker ve
+şunları çalıştırır:
+
+```bash
+npm install
+npm run build   # next build --webpack (Turbopack hosting'de port açamıyor)
+npm start
+```
+
+## Yayınlama — statik hosting (isteğe bağlı)
+
+Node.js çalıştırmayan paylaşımlı hosting için statik çıktı (`STATIC_EXPORT=1`,
+`output: "export"`) da üretilebilir:
 
 ```bash
 npm run build:root      # site kökte açılacaksa:       https://biqrmenu.tr.ht/

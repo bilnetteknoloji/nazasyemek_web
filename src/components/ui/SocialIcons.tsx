@@ -5,7 +5,7 @@ import { site } from "@/data/site";
 import { cn } from "@/lib/cn";
 
 /*
- * Marka logoları — CLAUDE.md'deki "tüm ikonlar lucide-react" kuralına bilinçli
+ * Marka logoları — projedeki "tüm ikonlar lucide-react" kuralına bilinçli
  * istisna: lucide'de TikTok yok, Instagram/Facebook marka ikonları da kaldırıldı.
  * Path'ler Simple Icons 16.33.0'dan (CC0) birebir alındı; renkler markaların
  * resmi renkleri.
