@@ -283,3 +283,11 @@ Masaüstü tasarıma dokunulmadı; yalnızca lg altı değişti. (Tam yeniden ta
 - `sections/InstagramFeed.tsx` (`/galeri`): `data/instagram.ts` → `instagramPosts` permalink'leri resmi
   embed.js ile gömülür. Liste boşken yalnızca takip kartı. Story'ler resmi yolla gömülemez.
 - `npm run assets` `public/video/hero-7745.mp4`'ü her seferinde yeniden kodluyor; içerik aynıysa `git checkout` ile geri alın.
+
+## GoDaddy Node.js yayını (2026-10-02)
+
+GoDaddy GitHub'daki **main** dalını çekip `npm run build` + `npm start` çalıştırır.
+- `npm run build` = `next build --webpack`: Turbopack PostCSS (Tailwind) için yerel port açıyor,
+  GoDaddy buna izin vermiyor (`binding to a port … Permission denied (os error 13)`). Turbopack'e geri dönmeyin.
+- `output: "export"` artık yalnızca `STATIC_EXPORT=1` ile (`build:root` / `build:subdir`) — `out/` bu derlemelere ait.
+- Node derlemesi kökte çalışır (basePath yok). Site adresi için `NEXT_PUBLIC_SITE_URL` GoDaddy ortam değişkeninde verilmeli.
