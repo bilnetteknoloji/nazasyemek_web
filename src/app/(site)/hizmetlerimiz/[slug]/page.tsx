@@ -10,7 +10,8 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Process } from "@/components/sections/Process";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { JsonLd } from "@/components/JsonLd";
-import { breadcrumbJsonLd } from "@/lib/jsonld";
+import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/jsonld";
+import { pageMeta } from "@/lib/seo";
 import { services } from "@/data/services";
 
 export function generateStaticParams() {
@@ -25,12 +26,13 @@ export async function generateMetadata({
 
   if (!service) return {};
 
-  return {
-    title: service.title,
-    description: service.short,
-    alternates: { canonical: `/hizmetlerimiz/${service.slug}` },
-    openGraph: { title: service.title, description: service.short },
-  };
+  return pageMeta({
+    title: `${service.title} — İstanbul Toplu Yemek`,
+    // Kısa özet arama sonucunda yetersiz kalıyordu; uzun açıklamanın ilk ~155 karakteri.
+    description: service.description.length > 158 ? `${service.description.slice(0, 155).replace(/\s+\S*$/, "")}…` : service.description,
+    path: `/hizmetlerimiz/${service.slug}`,
+    image: service.image,
+  });
 }
 
 export default async function ServiceDetailPage({
@@ -138,6 +140,7 @@ export default async function ServiceDetailPage({
           { name: service.title, href: `/hizmetlerimiz/${service.slug}` },
         ])}
       />
+      <JsonLd data={serviceJsonLd(service)} />
     </>
   );
 }

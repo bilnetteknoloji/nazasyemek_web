@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { Img as Image } from "@/components/ui/Img";
 import { Download, FileText } from "lucide-react";
 import { PageHero } from "@/components/layout/PageHero";
@@ -14,12 +15,11 @@ import { asset } from "@/lib/asset";
 const heroPhoto =
   photos.find((photo) => photo.src.endsWith("nazas9.webp")) ?? photos[0];
 
-export const metadata: Metadata = {
-  title: "Belgelerimiz",
-  description:
-    "ISO 9001, ISO 22000, ISO 45001, ISO 14001, Helal, GHP ve GMP dâhil kalite ve gıda güvenliği belgelerimiz.",
-  alternates: { canonical: "/belgelerimiz" },
-};
+export const metadata: Metadata = pageMeta({
+  title: "Belgelerimiz — ISO 22000, ISO 9001 ve Helal",
+  description: "ISO 9001, ISO 22000, ISO 45001, ISO 14001, Helal, GHP ve GMP dâhil kalite ve gıda güvenliği belgelerimiz. Belgeleri PDF olarak inceleyin.",
+  path: "/belgelerimiz",
+});
 
 export default async function CertificatesPage() {
   const certificates = await getCertificates();

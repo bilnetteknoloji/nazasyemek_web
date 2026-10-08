@@ -5,6 +5,7 @@ import { changePassword } from "@/features/admin/auth/actions";
 import { Field, inputClass } from "@/features/admin/ui/field";
 import { FormMessage, type ActionState } from "@/features/admin/ui/form-message";
 import { SubmitButton } from "@/features/admin/ui/submit-button";
+import type { SeoSettings } from "@/lib/content/seo-types";
 import type { StatsSettings } from "@/lib/content/stats-types";
 import type { ContactSettings } from "@/lib/site-contact";
 
@@ -102,5 +103,105 @@ export function PasswordForm() {
       </div>
       <Footer state={state} label="Şifreyi değiştir" />
     </form>
+  );
+}
+
+const seoFields: { name: "google" | "yandex" | "bing"; label: string; console: string; consoleLabel: string; meta: string }[] = [
+  {
+    name: "google",
+    label: "Google",
+    console: "https://search.google.com/search-console",
+    consoleLabel: "Google Search Console",
+    meta: "google-site-verification",
+  },
+  {
+    name: "yandex",
+    label: "Yandex",
+    console: "https://webmaster.yandex.com.tr/",
+    consoleLabel: "Yandex Webmaster",
+    meta: "yandex-verification",
+  },
+  {
+    name: "bing",
+    label: "Bing",
+    console: "https://www.bing.com/webmasters",
+    consoleLabel: "Bing Webmaster Tools",
+    meta: "msvalidate.01",
+  },
+];
+
+/**
+ * Arama motoru doğrulama kodları. Her motorun panelinde "HTML etiketi /
+ * meta etiketi" yöntemi seçilir, verilen etiket buraya yapıştırılır.
+ */
+export function SeoSettingsForm({
+  action,
+  notify,
+  values,
+  siteUrl,
+}: {
+  action: Action;
+  notify: () => Promise<ActionState>;
+  values: SeoSettings;
+  siteUrl: string;
+}) {
+  const [state, formAction] = useActionState(action, null);
+  const [notifyState, notifyAction] = useActionState(notify, null);
+  return (
+    <div className="flex flex-col gap-5">
+      <ol className="flex list-decimal flex-col gap-1 rounded-lg bg-neutral-50 py-3 pr-3 pl-8 text-[13px] text-neutral-600">
+        <li>Aşağıdaki bağlantıdan arama motorunun paneline girin ve sitenizi ekleyin ({siteUrl}).</li>
+        <li>Doğrulama yöntemi olarak <strong>HTML etiketi (meta etiketi)</strong> seçin.</li>
+        <li>Verilen etiketin tamamını ilgili kutuya yapıştırıp kaydedin, sonra o panelde &quot;Doğrula&quot;ya basın.</li>
+        <li>
+          Doğrulandıktan sonra panelde <strong>Site haritası</strong> bölümüne şu adresi ekleyin:{" "}
+          <code className="rounded bg-white px-1 py-0.5 text-[12px] text-neutral-900">{siteUrl}/sitemap.xml</code>
+        </li>
+      </ol>
+      <form action={formAction} className="flex flex-col gap-4">
+        {seoFields.map((field) => (
+          <Field
+            key={field.name}
+            id={`seo-${field.name}`}
+            label={field.label}
+            hint={values[field.name] ? "Kayıtlı ✓" : `Örnek: <meta name="${field.meta}" content="…" />`}
+          >
+            <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center">
+              <input
+                id={`seo-${field.name}`}
+                name={field.name}
+                defaultValue={values[field.name]}
+                placeholder="Kodu ya da meta etiketini yapıştırın"
+                className={inputClass}
+              />
+              <a
+                href={field.console}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 text-[13px] font-medium text-neutral-600 underline-offset-2 hover:text-neutral-900 hover:underline"
+              >
+                {field.consoleLabel} ↗
+              </a>
+            </div>
+          </Field>
+        ))}
+        <Footer state={state} />
+      </form>
+      <form action={notifyAction} className="flex flex-col gap-3 rounded-lg border border-neutral-200 p-4">
+        <div className="flex flex-col gap-1">
+          <span className="text-[14px] font-medium text-neutral-900">Bing ve Yandex&apos;e anında bildir (IndexNow)</span>
+          <span className="text-[12.5px] text-neutral-500">
+            Tüm sayfaları arama motorlarına bildirir; yeni yazılar ve ana sayfa değişiklikleri zaten otomatik bildirilir.
+            Google bu yöntemi kullanmaz, site haritasını kendisi okur.
+          </span>
+        </div>
+        <FormMessage state={notifyState} />
+        <div className="flex justify-end">
+          <SubmitButton variant="secondary" pendingLabel="Bildiriliyor…">
+            Tüm sayfaları bildir
+          </SubmitButton>
+        </div>
+      </form>
+    </div>
   );
 }

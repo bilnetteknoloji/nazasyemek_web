@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { ContactHero } from "@/components/sections/contact/ContactHero";
 import { ContactCards } from "@/components/sections/contact/ContactCards";
 import { VisitGuide } from "@/components/sections/contact/VisitGuide";
@@ -11,11 +12,11 @@ import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { site } from "@/data/site";
 
-export const metadata: Metadata = {
-  title: "İletişim",
+export const metadata: Metadata = pageMeta({
+  title: "İletişim — Bağcılar, İstanbul",
   description: `${site.legalName} — ${site.address.full}. Toplu yemek ve catering talepleriniz için bize ulaşın.`,
-  alternates: { canonical: "/iletisim" },
-};
+  path: "/iletisim",
+});
 
 /** Bölüm sırası Stitch "İletişim" ekranından. */
 export default function ContactPage() {

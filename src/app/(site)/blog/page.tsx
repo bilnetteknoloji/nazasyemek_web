@@ -1,5 +1,6 @@
 import { ArrowRight, Newspaper } from "lucide-react";
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/JsonLd";
@@ -13,11 +14,11 @@ import { breadcrumbJsonLd } from "@/lib/jsonld";
 
 const heroPhoto = photos.find((photo) => photo.src.endsWith("nazas2.webp")) ?? photos[0];
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description: "NAZ-AŞ Yemek'ten haberler, duyurular, menü ve beslenme yazıları.",
-  alternates: { canonical: "/blog" },
-};
+export const metadata: Metadata = pageMeta({
+  title: "Blog — Toplu Yemek ve Beslenme Yazıları",
+  description: "NAZ-AŞ Yemek'ten haberler, duyurular, kurumsal beslenme, menü planlama ve gıda güvenliği üzerine yazılar.",
+  path: "/blog",
+});
 
 const dateFormat = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric" });
 

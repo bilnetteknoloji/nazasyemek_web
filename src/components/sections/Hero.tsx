@@ -3,19 +3,33 @@ import { ButtonLink } from "@/components/ui/Button";
 import { HeroSlider } from "./HeroSlider";
 import { QuickStats } from "./QuickStats";
 import { QuickActions } from "./QuickActions";
-import { heroBadge, heroSlides } from "@/data/home";
+import { getHome } from "@/lib/content/home";
+
+/** "Aş'a *Lezzet* Katıyoruz." → yıldız içindeki kelime italik ve açık renk. */
+function HeroTitle({ text }: { text: string }) {
+  return text.split(/(\*[^*]+\*)/).map((part, index) =>
+    part.startsWith("*") && part.endsWith("*") && part.length > 2 ? (
+      <span key={index} className="text-brand-200 font-normal italic">
+        {part.slice(1, -1)}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
 
 /**
  * Stitch: tam genişlikte koyu banner, üstte içerik katmanı, altında
  * ince hızlı istatistik şeridi.
  */
-export function Hero() {
+export async function Hero() {
+  const { hero } = await getHome();
   return (
     <section className="bg-cream-deep lg:bg-inverse relative w-full overflow-hidden text-white">
       {/* Mobil ve tablette slider, header'ın altında yuvarlak köşeli bir
           uygulama kartı; masaüstünde tam genişlikte koyu banner. */}
-      <div className="bg-inverse relative w-full overflow-hidden max-lg:mx-auto max-lg:mt-[96px] max-lg:aspect-[16/10] max-lg:w-[calc(100%-2rem)] max-lg:rounded-3xl max-lg:shadow-lg sm:max-lg:aspect-[16/9] lg:flex lg:min-h-[640px] lg:items-center">
-        <HeroSlider slides={heroSlides} />
+      <div className="bg-inverse relative w-full overflow-hidden max-lg:mx-auto max-lg:mt-[76px] max-lg:aspect-[16/10] max-lg:w-[calc(100%-2rem)] max-lg:rounded-3xl max-lg:shadow-lg sm:max-lg:aspect-[16/9] lg:flex lg:min-h-[640px] lg:items-center">
+        <HeroSlider slides={hero.slides} />
 
         {/* Okunabilirlik gradyanları — yalnız masaüstünde; mobil ve tablette
             hero yalnızca görselden oluşur. Görselin sol kenarı zaten maskeyle
@@ -37,19 +51,15 @@ export function Hero() {
                 className="text-sage-300 size-4 shrink-0"
                 aria-hidden
               />
-              {heroBadge}
+              {hero.badge}
             </p>
 
             <h1 className="font-display text-4xl leading-tight tracking-tight text-white drop-shadow-md sm:text-5xl lg:text-[56px] lg:leading-[68px]">
-              Aş&apos;a{" "}
-              <span className="text-brand-200 font-normal italic">Lezzet</span>{" "}
-              Katıyoruz.
+              <HeroTitle text={hero.title} />
             </h1>
 
             <p className="hidden max-w-xl text-base leading-relaxed text-white/85 drop-shadow-sm sm:text-lg lg:block">
-              Modern endüstriyel mutfaklarımız, usta aşçılarımız ve hijyen
-              sertifikalı süreçlerimizle kurumlara sıcak, sağlıklı ve dengeli
-              yemek üretiyoruz.
+              {hero.lead}
             </p>
 
             <div className="hidden flex-wrap items-center gap-4 pt-1 lg:flex">

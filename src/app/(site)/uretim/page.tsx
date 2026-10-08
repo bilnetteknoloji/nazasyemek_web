@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { getGallery } from "@/lib/content/media";
 import { ProductionHero } from "@/components/sections/production/ProductionHero";
 import { Methodology } from "@/components/sections/production/Methodology";
@@ -13,12 +14,11 @@ import { facilityVisitNote } from "@/data/notes";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 
-export const metadata: Metadata = {
-  title: "Üretim Tesisimiz",
-  description:
-    "NAZ-AŞ üretim tesisi: beş aşamalı üretim metodolojisi, hijyen ve kalite standartları, kurumsal hizmet modelleri ve tesis galerisi.",
-  alternates: { canonical: "/uretim" },
-};
+export const metadata: Metadata = pageMeta({
+  title: "Üretim Tesisimiz ve Hijyen Süreçleri",
+  description: "NAZ-AŞ Yemek üretim tesisi: hammadde kabulünden sevkiyata beş aşamalı üretim, hijyen ve gıda güvenliği standartları, kurumsal hizmet modelleri.",
+  path: "/uretim",
+});
 
 /** Bölüm sırası Stitch "Üretim Tesisimiz & Süreçler | NAZ-AŞ" ekranından. */
 export default async function ProductionPage() {

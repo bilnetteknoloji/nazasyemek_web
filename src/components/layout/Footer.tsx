@@ -1,6 +1,6 @@
 import { Img as Image } from "@/components/ui/Img";
 import Link from "next/link";
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, Phone, Smartphone } from "lucide-react";
 import { SocialLinks, WhatsAppIcon } from "@/components/ui/SocialIcons";
 import { PhoneNaz } from "@/components/ui/PhoneNaz";
 import { legalNav, flatNav } from "@/data/site";
@@ -61,23 +61,39 @@ export async function Footer() {
                 <MapPin className="text-brand-600 mt-0.5 size-4 shrink-0" aria-hidden />
                 <span>{site.address.full}</span>
               </li>
-              <li className="flex items-start gap-3">
-                <Phone className="text-brand-600 mt-0.5 size-4 shrink-0" aria-hidden />
-                <a href={site.phoneHref} className="hover:text-brand-800 transition-colors">
-                  <PhoneNaz display={site.phoneDisplay} label={site.phone} />
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <WhatsAppIcon className="size-4 shrink-0 text-[#25D366]" />
-                <a
-                  href={`https://wa.me/${site.whatsapp}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-brand-800 transition-colors"
-                >
-                  WhatsApp: {site.whatsappDisplay}
-                </a>
-              </li>
+              {[
+                {
+                  label: "Sabit hat",
+                  href: site.phoneHref,
+                  icon: <Phone className="text-brand-600 mt-0.5 size-4 shrink-0" aria-hidden />,
+                  number: <PhoneNaz display={site.phoneDisplay} label={site.phone} />,
+                },
+                {
+                  label: "Mobil",
+                  href: site.mobileHref,
+                  icon: <Smartphone className="text-brand-600 mt-0.5 size-4 shrink-0" aria-hidden />,
+                  number: <PhoneNaz display={site.mobileDisplay} label={site.mobile} />,
+                },
+                {
+                  label: "WhatsApp",
+                  href: `https://wa.me/${site.whatsapp}`,
+                  external: true,
+                  icon: <WhatsAppIcon className="mt-0.5 size-4 shrink-0 text-[#25D366]" />,
+                  number: site.whatsappDisplay,
+                },
+              ].map((phone) => (
+                <li key={phone.label} className="flex items-start gap-3">
+                  {phone.icon}
+                  <a
+                    href={phone.href}
+                    {...(phone.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="hover:text-brand-800 transition-colors"
+                  >
+                    <span className="text-ink block text-xs font-semibold">{phone.label}</span>
+                    <span className="block">{phone.number}</span>
+                  </a>
+                </li>
+              ))}
               <li className="flex items-center gap-3">
                 <Mail className="text-brand-600 size-4 shrink-0" aria-hidden />
                 <a

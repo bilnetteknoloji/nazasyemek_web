@@ -6,16 +6,18 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 import { advantages } from "@/data/home";
+import { getHome } from "@/lib/content/home";
 
 /** Stitch: "Neden NAZ-AŞ Toplu Yemek Hizmetleri?" — üç avantaj kartı. */
-export function WhyUs() {
+export async function WhyUs() {
+  const { why } = await getHome();
   return (
     // Arka plan: servicebg (Son Fotolar) üzerine hafif siyah perde; başlık
     // koyu zemin tonunda, kartlar beyaz kalır.
     <Section className="bg-inverse relative isolate overflow-hidden">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <Img
-          src="/gorseller/bg/servicebg.webp"
+          src={why.background}
           alt=""
           fill
           sizes="100vw"
@@ -25,9 +27,9 @@ export function WhyUs() {
       </div>
       <SectionHeading
         tone="dark"
-        eyebrow="Kurumsal Avantajlarımız"
-        title="Neden NAZ-AŞ Toplu Yemek Hizmetleri?"
-        description="Yüksek kapasiteli endüstriyel üretimimizi zanaatkâr mutfak özeni ve sıkı denetim süreçleriyle buluşturuyoruz."
+        eyebrow={why.eyebrow}
+        title={why.title}
+        description={why.description}
         align="center"
       />
 
@@ -35,7 +37,7 @@ export function WhyUs() {
         {advantages.map((item, index) => (
           <Reveal
             as="li"
-            key={item.title}
+            key={index}
             delay={index * 0.08}
             className="group border-line/70 shadow-soft hover:shadow-lift flex flex-col rounded-3xl border bg-white p-7 transition-all duration-500 hover:-translate-y-1"
           >
@@ -50,16 +52,16 @@ export function WhyUs() {
               <item.icon className="size-7" aria-hidden />
             </span>
 
-            <h3 className="text-ink mt-6 text-xl font-bold">{item.title}</h3>
+            <h3 className="text-ink mt-6 text-xl font-bold">{why.cards[index]?.title ?? item.title}</h3>
             <p className="text-subtle mt-3 flex-1 text-sm leading-relaxed">
-              {item.text}
+              {why.cards[index]?.text ?? item.text}
             </p>
 
             <Link
               href={item.href}
               className="text-brand-800 hover:text-accent-500 mt-6 inline-flex items-center gap-2 text-sm font-semibold transition-colors"
             >
-              {item.linkLabel}
+              {why.cards[index]?.linkLabel ?? item.linkLabel}
               <ArrowRight
                 className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden

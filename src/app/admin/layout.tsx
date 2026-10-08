@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { asset } from "@/lib/asset";
 
 /**
- * Panel arama motorlarına kapalı; robots.ts ayrıca /admin'i engeller.
+ * Panel arama motorlarına kapalı; robots.txt ayrıca /admin'i engeller.
  * Manifest + appleWebApp: telefonda "Ana Ekrana Ekle" ile tam ekran,
  * tarayıcı çubuğu olmadan uygulama gibi açılır.
  */

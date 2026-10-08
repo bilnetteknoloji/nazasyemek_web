@@ -3,9 +3,10 @@ import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { getSite } from "@/lib/content/site";
+import { getHome } from "@/lib/content/home";
 
 export async function CtaBand() {
-  const site = await getSite();
+  const [site, { cta }] = await Promise.all([getSite(), getHome()]);
   return (
     <Section className="pb-24">
       <Reveal className="from-brand-800 via-brand-600 to-accent-500 relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br px-8 py-14 text-center sm:px-14 sm:py-20">
@@ -15,11 +16,10 @@ export async function CtaBand() {
         />
         <div className="relative">
           <h2 className="font-display text-cream mx-auto max-w-2xl text-3xl leading-[1.15] sm:text-4xl">
-            Kurumunuz için örnek menü ve fiyat teklifi hazırlayalım
+            {cta.title}
           </h2>
           <p className="mx-auto mt-5 max-w-xl leading-relaxed text-white/80">
-            Öğün sayınızı ve vardiya düzeninizi paylaşın; bir iş günü içinde
-            dönüş yapalım, dilerseniz deneme servisi planlayalım.
+            {cta.text}
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <ButtonLink href="/teklif-al" variant="light" size="lg">

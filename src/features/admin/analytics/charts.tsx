@@ -63,12 +63,74 @@ export function BarList({
   );
 }
 
-export function Stat({ label, value, hint }: { label: string; value: number; hint?: string }) {
+/** Önceki döneme göre değişim yüzdesi; önceki dönem boşsa gösterilmez. */
+function Change({ value, previous }: { value: number; previous: number }) {
+  if (!previous) return null;
+  const change = Math.round(((value - previous) / previous) * 100);
+  return (
+    <span className={cn("text-[12px] font-medium tabular-nums", change >= 0 ? "text-emerald-600" : "text-red-600")}>
+      {change >= 0 ? "▲" : "▼"} %{Math.abs(change)}
+    </span>
+  );
+}
+
+export function Stat({
+  label,
+  value,
+  hint,
+  previous,
+  suffix,
+}: {
+  label: string;
+  value: number;
+  hint?: string;
+  previous?: number;
+  suffix?: string;
+}) {
   return (
     <div className="flex flex-col gap-1 rounded-xl border border-neutral-200 bg-white p-4">
       <span className="text-[13px] text-neutral-500">{label}</span>
-      <span className="text-[26px] leading-8 font-semibold tracking-[-0.5px] tabular-nums">{value.toLocaleString("tr-TR")}</span>
+      <span className="flex items-baseline gap-2">
+        <span className="text-[26px] leading-8 font-semibold tracking-[-0.5px] tabular-nums">
+          {suffix === "%" ? "%" : null}
+          {value.toLocaleString("tr-TR")}
+        </span>
+        {previous !== undefined ? <Change value={value} previous={previous} /> : null}
+      </span>
       {hint ? <span className="text-[12px] text-neutral-400">{hint}</span> : null}
     </div>
+  );
+}
+
+/** Dikey sütunlar (saat ve gün dağılımı); en yoğun sütun koyu. */
+export function ColumnChart({ items, label }: { items: { label: string; value: number }[]; label: string }) {
+  const max = Math.max(1, ...items.map((item) => item.value));
+  const peak = items.reduce((best, item) => (item.value > best.value ? item : best), items[0]);
+  const every = items.length > 12 ? 3 : 1;
+  return (
+    <figure className="flex flex-col gap-2 p-4 sm:p-5">
+      <div className="flex h-32 items-end gap-[3px]" role="img" aria-label={label}>
+        {items.map((item) => (
+          <div key={item.label} className="flex h-full flex-1 items-end" title={`${item.label}: ${item.value} görüntüleme`}>
+            <div
+              className={cn("w-full rounded-t-[3px]", item === peak && item.value ? "bg-neutral-900" : "bg-neutral-300")}
+              style={{ height: `${Math.max(item.value ? 4 : 0, (item.value / max) * 100)}%` }}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="flex gap-[3px] text-[10.5px] text-neutral-400">
+        {items.map((item, index) => (
+          <span key={item.label} className="flex-1 text-center">
+            {index % every === 0 ? item.label : ""}
+          </span>
+        ))}
+      </div>
+      {peak?.value ? (
+        <figcaption className="text-[12px] text-neutral-500">
+          En yoğun: <strong className="font-medium text-neutral-900">{peak.label}</strong>
+        </figcaption>
+      ) : null}
+    </figure>
   );
 }

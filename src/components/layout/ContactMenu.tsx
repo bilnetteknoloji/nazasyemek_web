@@ -1,15 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Clock, Mail, MapPin, Phone } from "lucide-react";
+import { ChevronDown, Clock, Mail, MapPin, Phone, Smartphone } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useSite } from "@/components/SiteProvider";
+import { PhoneNaz } from "@/components/ui/PhoneNaz";
 import { SocialLinks, WhatsAppIcon } from "@/components/ui/SocialIcons";
 
 /**
  * Header'daki iletişim menüsü.
  * Stitch'in sağ üstteki segmented pill grubuyla aynı biçim dilinde;
  * telefon, WhatsApp ve e-postayı tek bir açılır alanda toplar.
+ * Mobilde yalnızca tek yuvarlak telefon düğmesi görünür ve menüyü açar;
+ * üç numara (sabit hat, mobil, WhatsApp) menünün başında alt alta durur.
  */
 export function ContactMenu() {
   const site = useSite();
@@ -32,9 +35,45 @@ export function ContactMenu() {
     };
   }, [open]);
 
+  const phones = [
+    {
+      label: "Sabit hat",
+      href: site.phoneHref,
+      icon: <Phone className="text-brand-600 mt-0.5 size-4 shrink-0" aria-hidden />,
+      number: <PhoneNaz display={site.phoneDisplay} label={site.phone} />,
+    },
+    {
+      label: "Mobil",
+      href: site.mobileHref,
+      icon: <Smartphone className="text-brand-600 mt-0.5 size-4 shrink-0" aria-hidden />,
+      number: <PhoneNaz display={site.mobileDisplay} label={site.mobile} />,
+    },
+    {
+      label: "WhatsApp",
+      href: `https://wa.me/${site.whatsapp}`,
+      external: true,
+      icon: <WhatsAppIcon className="mt-0.5 size-4 shrink-0 text-[#25D366]" />,
+      number: site.whatsappDisplay,
+    },
+  ];
+
   return (
     <div ref={wrapperRef} className="relative">
-      <div className="bg-container flex items-center gap-1 rounded-full p-1">
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="true"
+        aria-label="İletişim"
+        onClick={() => setOpen((value) => !value)}
+        className={cn(
+          "text-brand-800 bg-container flex size-10 items-center justify-center rounded-full transition-colors lg:hidden",
+          open && "bg-brand-800 text-white",
+        )}
+      >
+        <Phone className="size-[18px]" aria-hidden />
+      </button>
+
+      <div className="bg-container hidden items-center gap-1 rounded-full p-1 lg:flex">
         <a
           href={site.phoneHref}
           className="text-brand-800 shadow-soft flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm font-bold whitespace-nowrap transition-colors"
@@ -64,23 +103,24 @@ export function ContactMenu() {
 
       <div
         hidden={!open}
-        className="border-line/70 shadow-lift absolute top-full right-0 z-50 mt-2 w-72 rounded-2xl border bg-white p-2"
+        className="border-line/70 shadow-lift absolute top-full right-0 z-50 mt-2 w-72 rounded-2xl border bg-white p-2 max-lg:mt-3 max-lg:w-[calc(100vw-1.5rem)] max-lg:max-w-sm"
       >
         <ul className="space-y-1">
-          <li>
-            <a
-              href={`https://wa.me/${site.whatsapp}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:bg-cream-deep flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors"
-            >
-              <WhatsAppIcon className="mt-0.5 size-4 shrink-0 text-[#25D366]" />
-              <span>
-                <span className="text-ink block text-sm font-semibold">WhatsApp</span>
-                <span className="text-muted block text-xs">{site.whatsappDisplay}</span>
-              </span>
-            </a>
-          </li>
+          {phones.map((phone) => (
+            <li key={phone.label}>
+              <a
+                href={phone.href}
+                {...(phone.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="hover:bg-cream-deep flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors"
+              >
+                {phone.icon}
+                <span>
+                  <span className="text-ink block text-sm font-semibold">{phone.label}</span>
+                  <span className="text-muted block text-xs">{phone.number}</span>
+                </span>
+              </a>
+            </li>
+          ))}
           <li>
             <a
               href={`mailto:${site.email}`}
@@ -95,7 +135,7 @@ export function ContactMenu() {
           </li>
         </ul>
 
-        <div className="border-line mt-2 space-y-2 border-t px-3 pt-3">
+        <div className="border-line mt-2 space-y-2 border-t px-3 pt-3 max-lg:hidden">
           <p className="text-muted flex items-start gap-2 text-xs leading-relaxed">
             <MapPin className="text-brand-400 mt-0.5 size-3.5 shrink-0" aria-hidden />
             {site.address.full}

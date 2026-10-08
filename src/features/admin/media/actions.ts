@@ -5,7 +5,7 @@ import { requireAdmin } from "@/features/admin/auth/session";
 import { requireSupabaseEnv } from "@/lib/env";
 import { MEDIA_BUCKET, mediaUrl } from "@/lib/supabase/storage";
 
-const folders = ["galeri", "belgeler", "blog"] as const;
+const folders = ["galeri", "belgeler", "blog", "anasayfa"] as const;
 const extensions = ["webp", "jpg", "png", "pdf", "mp4"] as const;
 
 export type UploadTarget = {

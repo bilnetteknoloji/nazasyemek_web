@@ -5,6 +5,7 @@ import { z } from "zod";
 import { requireAdmin } from "@/features/admin/auth/session";
 import { removeStoredFile } from "@/features/admin/media/actions";
 import { refreshSite } from "@/features/admin/revalidate";
+import { notifyLater } from "@/features/admin/seo/notify";
 import type { ActionState } from "@/features/admin/ui/form-message";
 import { TAGS } from "@/lib/content/tags";
 
@@ -57,6 +58,10 @@ export async function savePost(id: string | null, input: PostInput): Promise<Act
   }
 
   refreshSite(TAGS.posts, ["/blog", `/blog/${row.slug}`, "/admin/blog"]);
+  // Yayındaki yazı Bing ve Yandex'e hemen bildirilir.
+  if (row.status === "yayinda" && row.published_at && new Date(row.published_at) <= new Date()) {
+    await notifyLater([`/blog/${row.slug}`, "/blog"]);
+  }
   return {
     ok: true,
     id: postId ?? undefined,
