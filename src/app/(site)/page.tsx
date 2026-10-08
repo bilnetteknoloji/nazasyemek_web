@@ -15,11 +15,22 @@ import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { StackFooterFill, StackLayer, type StackTone } from "@/components/ui/StackLayer";
-import { faqJsonLd } from "@/lib/jsonld";
+import { faqJsonLd, websiteJsonLd } from "@/lib/jsonld";
+import { site } from "@/data/site";
 import { faqs } from "@/data/faq";
 
+// Başlık ve açıklama kök düzenden; paylaşımda adres de ana sayfa olsun.
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "tr_TR",
+    siteName: `${site.name} Yemek`,
+    url: "/",
+    title: `${site.name} Yemek | İstanbul Toplu Yemek ve Catering Firması`,
+    description: site.description,
+    images: [{ url: "/opengraph-image/", width: 1200, height: 630 }],
+  },
 };
 
 /**
@@ -75,6 +86,7 @@ export default function Home() {
         <StackFooterFill />
       </div>
       <JsonLd data={faqJsonLd(faqs.slice(0, 6))} />
+      <JsonLd data={websiteJsonLd()} />
     </>
   );
 }

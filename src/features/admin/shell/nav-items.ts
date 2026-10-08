@@ -1,5 +1,6 @@
 import {
   Award,
+  House,
   ChartLine,
   Images,
   Inbox,
@@ -20,6 +21,7 @@ export const navItems: NavItem[] = [
   { href: "/admin/talepler", label: "Talepler", icon: Inbox, tab: true },
   { href: "/admin/musteriler", label: "Müşteriler", icon: Users, tab: true },
   { href: "/admin/menu", label: "Menü", icon: UtensilsCrossed, tab: true },
+  { href: "/admin/ana-sayfa", label: "Ana Sayfa", icon: House },
   { href: "/admin/galeri", label: "Galeri", icon: Images },
   { href: "/admin/belgeler", label: "Belgeler", icon: Award },
   { href: "/admin/blog", label: "Blog", icon: Newspaper },

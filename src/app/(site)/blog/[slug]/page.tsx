@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/layout/PageHero";
@@ -23,18 +24,14 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPost((await params).slug);
   if (!post) return {};
-  return {
+  return pageMeta({
     title: post.title,
-    description: post.excerpt ?? undefined,
-    alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: {
-      type: "article",
-      title: post.title,
-      description: post.excerpt ?? undefined,
-      publishedTime: post.publishedAt,
-      ...(post.coverUrl ? { images: [post.coverUrl] } : {}),
-    },
-  };
+    description: post.excerpt ?? post.body.replace(/[#*_>`\[\]()!-]/g, " ").replace(/\s+/g, " ").trim().slice(0, 155),
+    path: `/blog/${post.slug}`,
+    image: post.coverUrl ?? undefined,
+    type: "article",
+    publishedTime: post.publishedAt,
+  });
 }
 
 const dateFormat = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric" });

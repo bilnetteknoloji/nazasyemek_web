@@ -1,30 +1,32 @@
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { sectors } from "@/data/home";
+import { getHome } from "@/lib/content/home";
 
-/** Stitch: "Güvenilir Çözüm Ortağı" — hizmet verilen sektör şeridi. */
-export function SectorStrip() {
+/** Stitch: "Güvenilir Çözüm Ortağı" — hizmet verilen sektör şeridi. İkonlar sıraya göre sabit. */
+export async function SectorStrip() {
+  const { sectors: content } = await getHome();
   return (
     <section className="w-full bg-white py-8">
       <Container>
         <Reveal className="flex flex-col items-center justify-between gap-6 md:flex-row">
           <div className="shrink-0 text-center md:text-left">
             <span className="text-muted block text-xs font-semibold tracking-wider uppercase">
-              Güvenilir Çözüm Ortağı
+              {content.eyebrow}
             </span>
             <span className="text-ink text-base font-semibold sm:text-lg">
-              Organize Sanayi &amp; Kurumsal Hizmet Alanlarımız
+              {content.title}
             </span>
           </div>
 
           <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 opacity-75 transition-opacity duration-300 hover:opacity-100 md:justify-end">
-            {sectors.map((sector) => (
+            {sectors.map((sector, index) => (
               <li
-                key={sector.label}
+                key={index}
                 className="text-subtle/70 flex items-center gap-1.5 text-sm font-bold tracking-tighter sm:text-base"
               >
                 <sector.icon className="size-6 shrink-0" aria-hidden />
-                {sector.label}
+                {content.items[index] ?? sector.label}
               </li>
             ))}
           </ul>

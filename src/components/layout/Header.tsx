@@ -26,21 +26,26 @@ export function Header() {
     // Tam genişlik bar yerine ortada yüzen cam kapsül. Dış katman tıklamayı
     // geçirir; yalnızca kapsül etkileşimli. Kapsüldeki backdrop-blur `fixed`
     // çocuklar için yeni bağlam yaratır — MobileNav bu yüzden body'ye portal.
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-4 sm:pt-4">
+    // Mobil ve tablette (lg altı) kapsül yerine ekrana yapışık, ince uygulama
+    // çubuğu: solda logo + slogan yan yana, sağda tek iletişim düğmesi.
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-40 lg:px-4 lg:pt-4">
       <div
         className={cn(
-          "pointer-events-auto mx-auto flex w-full items-center justify-between gap-3 rounded-full border pr-2 pl-3 backdrop-blur-xl transition-all duration-500 ease-[var(--ease-out-expo)] sm:pl-5",
+          "pointer-events-auto mx-auto flex w-full items-center justify-between gap-3 backdrop-blur-xl transition-all duration-500 ease-[var(--ease-out-expo)]",
+          "max-lg:border-line/60 max-lg:h-[60px] max-lg:border-b max-lg:bg-white/90 max-lg:pr-3 max-lg:pl-4",
+          scrolled && "max-lg:shadow-[0_6px_20px_-12px_rgb(30_27_24/0.3)]",
+          "lg:rounded-full lg:border lg:pr-2 lg:pl-5",
           scrolled
-            ? "h-16 max-w-6xl border-white/80 bg-white/90 shadow-[0_10px_30px_-10px_rgb(30_27_24/0.25)]"
-            : "h-[76px] max-w-6xl border-white/60 bg-white/75 shadow-[0_8px_28px_-12px_rgb(30_27_24/0.22)]",
+            ? "lg:h-16 lg:max-w-6xl lg:border-white/80 lg:bg-white/90 lg:shadow-[0_10px_30px_-10px_rgb(30_27_24/0.25)]"
+            : "lg:h-[76px] lg:max-w-6xl lg:border-white/60 lg:bg-white/75 lg:shadow-[0_8px_28px_-12px_rgb(30_27_24/0.22)]",
         )}
       >
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-3"
+          className="flex min-w-0 shrink-0 items-center gap-3"
           aria-label={`${site.legalName} ana sayfa`}
         >
-          <span className="flex flex-col items-center">
+          <span className="flex items-center gap-2.5 lg:flex-col lg:gap-0">
             <Image
               src="/brand/logo.svg"
               alt=""
@@ -49,11 +54,11 @@ export function Header() {
               priority
               unoptimized
               className={cn(
-                "w-auto transition-all duration-500 ease-[var(--ease-out-expo)]",
-                scrolled ? "h-9" : "h-11",
+                "h-9 w-auto transition-all duration-500 ease-[var(--ease-out-expo)]",
+                scrolled ? "lg:h-9" : "lg:h-11",
               )}
             />
-            <span className="mt-0.5 text-[10px] leading-none font-extrabold whitespace-nowrap text-red-600">
+            <span className="text-[13px] leading-none font-extrabold whitespace-nowrap text-red-600 lg:mt-0.5 lg:text-[10px]">
               {site.slogan}
             </span>
           </span>
@@ -91,7 +96,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <ContactMenu />
-          <ButtonLink href="/teklif-al" size="sm" className="hidden rounded-full whitespace-nowrap sm:inline-flex">
+          <ButtonLink href="/teklif-al" size="sm" className="hidden rounded-full whitespace-nowrap lg:inline-flex">
             Teklif Alın
           </ButtonLink>
           <MobileNav />

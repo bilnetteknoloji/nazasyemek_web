@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { getGallery } from "@/lib/content/media";
 import { PageHero } from "@/components/layout/PageHero";
 import { Section } from "@/components/ui/Section";
@@ -12,12 +13,11 @@ import { photos } from "@/data/media";
 const heroPhoto =
   photos.find((photo) => photo.src.endsWith("nazas1.webp")) ?? photos[0];
 
-export const metadata: Metadata = {
-  title: "Galeri",
-  description:
-    "NAZ-AŞ Yemek mutfağından, kumanya hazırlığından, yemekhane servisinden ve kurumsal organizasyonlardan fotoğraf ve videolar.",
-  alternates: { canonical: "/galeri" },
-};
+export const metadata: Metadata = pageMeta({
+  title: "Galeri — Mutfağımız ve Yemek Servisimiz",
+  description: "NAZ-AŞ Yemek mutfağından, kumanya hazırlığından, yemekhane servisinden ve kurumsal organizasyonlardan fotoğraf ve videolar.",
+  path: "/galeri",
+});
 
 export default async function GalleryPage() {
   const gallery = await getGallery();

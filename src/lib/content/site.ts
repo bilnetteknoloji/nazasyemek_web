@@ -4,6 +4,7 @@ import { cache } from "react";
 import { capacity as staticCapacity, quickStats as staticQuickStats } from "@/data/home";
 import { createPublicClient } from "@/lib/supabase/public";
 import { resolveSite, type ContactSettings } from "@/lib/site-contact";
+import { emptySeo, type SeoSettings } from "./seo-types";
 import type { StatsSettings } from "./stats-types";
 import { TAGS } from "./tags";
 
@@ -41,6 +42,12 @@ export const getStats = cache(async () => {
     })),
   };
 });
+
+/** Arama motoru doğrulama kodları ve IndexNow anahtarı. */
+export const getSeo = cache(async (): Promise<SeoSettings> => ({
+  ...emptySeo,
+  ...((await readSetting<Partial<SeoSettings>>("seo")) ?? {}),
+}));
 
 /** Yalnızca dolu metin alanlarını alır; boş bırakılan alan dosyadaki değerde kalır. */
 function pick<K extends string>(source: Partial<Record<K, unknown>> | undefined, keys: K[]) {

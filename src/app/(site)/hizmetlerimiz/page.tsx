@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { PageHero } from "@/components/layout/PageHero";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
 import { Process } from "@/components/sections/Process";
@@ -9,12 +10,11 @@ import { breadcrumbJsonLd } from "@/lib/jsonld";
 
 const heroPhoto = { src: "/gorseller/bg/menubg.webp" };
 
-export const metadata: Metadata = {
-  title: "Hizmetlerimiz",
-  description:
-    "Fabrika ve işyeri yemeği, okul-üniversite menüleri, kumanya, davet ve organizasyon, yerinde mutfak işletmeciliği ile taşıma ve lojistik hizmetleri.",
-  alternates: { canonical: "/hizmetlerimiz" },
-};
+export const metadata: Metadata = pageMeta({
+  title: "Toplu Yemek Hizmetleri: Fabrika, Okul, Kumanya",
+  description: "İstanbul'da fabrika ve işyeri yemeği, okul-üniversite menüleri, kumanya, davet ve organizasyon yemeği ile yerinde mutfak işletmeciliği. Ücretsiz teklif alın.",
+  path: "/hizmetlerimiz",
+});
 
 export default function ServicesPage() {
   return (

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { CalendarCheck, PhoneCall, Utensils } from "lucide-react";
 import { photos } from "@/data/media";
 import { PageHero } from "@/components/layout/PageHero";
@@ -12,12 +13,11 @@ import { getSite } from "@/lib/content/site";
 const heroPhoto =
   photos.find((photo) => photo.src.endsWith("nazas7.webp")) ?? photos[0];
 
-export const metadata: Metadata = {
-  title: "Teklif Alın",
-  description:
-    "Kurumunuzun öğün ihtiyacını paylaşın; örnek menü ve fiyat teklifimizi bir iş günü içinde hazırlayalım.",
-  alternates: { canonical: "/teklif-al" },
-};
+export const metadata: Metadata = pageMeta({
+  title: "Toplu Yemek Fiyat Teklifi Alın",
+  description: "Kurumunuzun kişi sayısını ve öğün ihtiyacını paylaşın; İstanbul geneli toplu yemek için örnek menü ve fiyat teklifimizi bir iş günü içinde hazırlayalım.",
+  path: "/teklif-al",
+});
 
 const steps = [
   {

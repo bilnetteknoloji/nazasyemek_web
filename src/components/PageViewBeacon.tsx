@@ -22,6 +22,9 @@ export function PageViewBeacon() {
       referrer: first.current ? document.referrer : "",
       source: params.get("utm_source") ?? "",
       width: window.innerWidth,
+      touch: navigator.maxTouchPoints > 1,
+      entry: first.current,
+      lang: navigator.language ?? "",
     });
     first.current = false;
     try {

@@ -46,7 +46,7 @@ export default async function DashboardPage() {
     { done: weeks > 0, label: "Menü panele aktarıldı", href: "/admin/menu" },
     { done: certificates > 0, label: "Belgeler panele aktarıldı", href: "/admin/belgeler" },
     { done: gallery > 0, label: "Galeri panele aktarıldı", href: "/admin/galeri" },
-    { done: Boolean(stats.data), label: "Ana sayfa rakamları doğrulandı", href: "/admin/ayarlar" },
+    { done: Boolean(stats.data), label: "Ana sayfa rakamları doğrulandı", href: "/admin/ana-sayfa" },
     { done: posts > 0, label: "İlk blog yazısı yayınlandı", href: "/admin/blog/yeni" },
   ];
   const remaining = checklist.filter((item) => !item.done);

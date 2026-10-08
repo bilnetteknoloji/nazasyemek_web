@@ -1,10 +1,15 @@
 "use server";
 
+import { randomBytes } from "node:crypto";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import sitemap from "@/app/sitemap";
 import { requireAdmin } from "@/features/admin/auth/session";
 import { refreshSite } from "@/features/admin/revalidate";
 import type { ActionState } from "@/features/admin/ui/form-message";
+import { verificationCode, type SeoSettings } from "@/lib/content/seo-types";
 import { TAGS } from "@/lib/content/tags";
+import { submitToIndexNow } from "@/lib/server/indexnow";
 
 const phone = z
   .string()
@@ -67,4 +72,52 @@ export async function saveStats(_previous: ActionState, formData: FormData): Pro
   if (error) return { ok: false, message: "Kaydedilemedi." };
   refreshAll();
   return { ok: true, message: "Rakamlar ana sayfada güncellendi." };
+}
+
+/**
+ * Arama motoru doğrulama kodları. Meta etiketinin tamamı yapıştırılsa da
+ * yalnızca kod saklanır. IndexNow anahtarı ilk kayıtta üretilir ve korunur.
+ */
+export async function saveSeo(_previous: ActionState, formData: FormData): Promise<ActionState> {
+  const { supabase } = await requireAdmin();
+  const fields = ["google", "yandex", "bing"] as const;
+  const codes: Record<(typeof fields)[number], string> = { google: "", yandex: "", bing: "" };
+  for (const field of fields) {
+    const raw = String(formData.get(field) ?? "");
+    const code = verificationCode(raw);
+    if (raw.trim() && !code) return { ok: false, message: "Doğrulama kodlarından biri okunamadı. Yalnızca kodu ya da meta etiketini yapıştırın." };
+    codes[field] = code;
+  }
+  const { data } = await supabase.from("settings").select("value").eq("key", "seo").maybeSingle();
+  const previous = (data?.value as Partial<SeoSettings> | undefined) ?? {};
+  const indexNowKey = previous.indexNowKey || randomBytes(16).toString("hex");
+  const { error } = await save("seo", { ...codes, indexNowKey });
+  if (error) return { ok: false, message: "Kaydedilemedi." };
+  refreshAll();
+  revalidatePath("/indexnow.txt");
+  return { ok: true, message: "Kaydedildi. Arama motoru panelinde \"Doğrula\" düğmesine basabilirsiniz." };
+}
+
+/** Sitedeki tüm sayfaları (site haritası) IndexNow ile Bing ve Yandex'e bildirir. */
+export async function notifyAllPages(): Promise<ActionState> {
+  const { supabase } = await requireAdmin();
+  const { data } = await supabase.from("settings").select("value").eq("key", "seo").maybeSingle();
+  const key = (data?.value as Partial<SeoSettings> | undefined)?.indexNowKey;
+  if (!key) return { ok: false, message: "Önce bu kartı bir kez kaydedin; bildirim anahtarı oluşturulsun." };
+  if (process.env.NODE_ENV !== "production") return { ok: false, message: "Bildirim yalnızca canlı sitede gönderilir." };
+  const entries = await sitemap();
+  const result = await submitToIndexNow(
+    key,
+    entries.map((entry) => new URL(entry.url).pathname),
+  );
+  if (result.ok) {
+    return { ok: true, message: `${entries.length} sayfa Bing ve Yandex'e bildirildi.` };
+  }
+  return {
+    ok: false,
+    message:
+      result.status === 403
+        ? "Anahtar doğrulanamadı. Siteyi yeniden yayınladıktan birkaç dakika sonra tekrar deneyin."
+        : `Bildirim gönderilemedi (${result.status || "bağlantı"}). Biraz sonra tekrar deneyin.`,
+  };
 }

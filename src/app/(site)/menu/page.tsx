@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { getMenuWeeks } from "@/lib/content/menu";
 import { CatalogHero } from "@/components/sections/catalog/CatalogHero";
 import { PackagingStandards } from "@/components/sections/catalog/PackagingStandards";
@@ -14,12 +15,11 @@ import { mealUsageNote } from "@/data/notes";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 
-export const metadata: Metadata = {
-  title: "Menü & Katalog",
-  description:
-    "NAZ-AŞ Yemek dört haftalık örnek tabldot menüsü, ambalaj ve servis standartları ile kurumsal diyetisyen desteği.",
-  alternates: { canonical: "/menu" },
-};
+export const metadata: Metadata = pageMeta({
+  title: "Örnek Tabldot Menü ve Yemek Kataloğu",
+  description: "Dört haftalık örnek tabldot menümüz, öğün kalorileri, ambalaj ve servis standartları ile diyetisyen desteği. Kurumunuza özel menü hazırlıyoruz.",
+  path: "/menu",
+});
 
 /** Bölüm sırası Stitch "Ürün & Menü Kataloğu | NAZ-AŞ" ekranından. */
 export default async function MenuPage() {
