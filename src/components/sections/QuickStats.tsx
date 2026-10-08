@@ -1,8 +1,9 @@
 import { cn } from "@/lib/cn";
-import { quickStats } from "@/data/home";
+import { getStats } from "@/lib/content/site";
 
 /** Stitch: hero'nun altına yapışık, ikonlu hızlı istatistik şeridi. */
-export function QuickStats() {
+export async function QuickStats() {
+  const { quickStats } = await getStats();
   return (
     <div className="bg-cream-deep border-line w-full border-b py-4">
       <ul className="mx-auto grid w-full max-w-6xl grid-cols-2 items-center gap-4 px-5 sm:px-8 md:grid-cols-4">

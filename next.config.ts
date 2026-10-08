@@ -5,6 +5,8 @@ import type { NextConfig } from "next";
  * - `npm run build` + `npm start` → Node.js sunucusu (GoDaddy, main dalından derler).
  *   Turbopack PostCSS için yerel port açıyor, GoDaddy buna izin vermiyor
  *   ("binding to a port … Permission denied") → bu derleme `--webpack` ile yapılır.
+ *   GoDaddy önizleme ortamı `npm run dev` çalıştırdığı için `dev` de `--webpack`
+ *   (yerelde hızlı geliştirme için `npm run dev:turbo`).
  * - `npm run build:root` / `build:subdir` → STATIC_EXPORT=1 ile statik `out/` klasörü
  *   (Node.js'siz paylaşımlı hosting).
  *

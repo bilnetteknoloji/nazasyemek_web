@@ -2,11 +2,13 @@ import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { SocialLinks } from "@/components/ui/SocialIcons";
 import { PhoneNaz } from "@/components/ui/PhoneNaz";
-import { contactCards } from "@/data/contact";
+import { contactCardsFor } from "@/data/contact";
+import { getSite } from "@/lib/content/site";
 import { cn } from "@/lib/cn";
 
 /** Stitch İletişim bölüm 2: iletişim kanalı kartları. */
-export function ContactCards() {
+export async function ContactCards() {
+  const contactCards = contactCardsFor(await getSite());
   return (
     <Section className="bg-cream pt-14 sm:pt-20">
       <ul className="mobile-rail md:grid gap-6 lg:grid-cols-3">

@@ -76,6 +76,7 @@ function VideoSlide({ slide, active }: { slide: HeroSlide; active: boolean }) {
 
 /**
  * Stitch hero slider'ı: tam kaplayan görsel ya da video, yan oklar ve alt noktalar.
+ * Mobil ve tablette oklar yok, parmakla kaydırılır; noktalar ortada.
  * Otomatik geçiş prefers-reduced-motion altında durur.
  */
 export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
@@ -91,29 +92,49 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = window.setInterval(() => go(1), 7000);
     return () => window.clearInterval(id);
-  }, [go]);
+  }, [go, active]);
+
+  // Mobilde parmakla kaydırarak geçiş (yatay hareket 40px'i aşarsa).
+  const touchX = useRef<number | null>(null);
 
   return (
     <>
-      {slides.map((slide, index) =>
-        slide.video ? (
-          <VideoSlide key={slide.src} slide={slide} active={index === active} />
-        ) : (
-          <SlideFrame key={slide.src} active={index === active}>
-            <Image
-              src={slide.src}
-              alt={index === 0 ? slide.caption : ""}
-              fill
-              priority={index === 0}
-              sizes="(min-width: 1024px) 68vw, 100vw"
-              className={mediaClass}
+      <div
+        className="absolute inset-0"
+        onTouchStart={(event) => {
+          touchX.current = event.touches[0].clientX;
+        }}
+        onTouchEnd={(event) => {
+          if (touchX.current === null) return;
+          const dx = event.changedTouches[0].clientX - touchX.current;
+          touchX.current = null;
+          if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+        }}
+      >
+        {slides.map((slide, index) =>
+          slide.video ? (
+            <VideoSlide
+              key={slide.src}
+              slide={slide}
+              active={index === active}
             />
-          </SlideFrame>
-        ),
-      )}
+          ) : (
+            <SlideFrame key={slide.src} active={index === active}>
+              <Image
+                src={slide.src}
+                alt={index === 0 ? slide.caption : ""}
+                fill
+                priority={index === 0}
+                sizes="(min-width: 1024px) 68vw, 100vw"
+                className={mediaClass}
+              />
+            </SlideFrame>
+          ),
+        )}
+      </div>
 
       {/* Oklar sağ altta: hiçbir genişlikte başlık metniyle çakışmaz. */}
-      <div className="absolute right-5 bottom-8 z-20 hidden items-center gap-2 sm:flex sm:right-8 lg:bottom-10">
+      <div className="absolute right-8 bottom-10 z-20 hidden items-center gap-2 lg:flex">
         <button
           type="button"
           onClick={() => go(-1)}
@@ -132,7 +153,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         </button>
       </div>
 
-      <div className="absolute bottom-8 left-5 z-20 flex items-center gap-2 sm:left-8 lg:bottom-10">
+      <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/25 px-2.5 py-1.5 backdrop-blur-sm lg:bottom-10 lg:left-8 lg:translate-x-0 lg:gap-2 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
         {slides.map((slide, index) => (
           <button
             key={slide.src}
@@ -141,10 +162,10 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             aria-label={`${index + 1}. görsele geç`}
             aria-current={index === active}
             className={cn(
-              "h-2.5 rounded-full transition-all duration-300",
+              "h-2 rounded-full transition-all duration-300 lg:h-2.5",
               index === active
-                ? "bg-brand-100 w-8"
-                : "w-2.5 bg-white/30 hover:bg-white/60",
+                ? "bg-brand-100 w-6 lg:w-8"
+                : "w-2 bg-white/40 hover:bg-white/60 lg:w-2.5 lg:bg-white/30",
             )}
           />
         ))}

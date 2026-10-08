@@ -8,6 +8,7 @@ import {
   Images,
   LayoutGrid,
   Mail,
+  Newspaper,
   ShieldCheck,
   Users,
   UtensilsCrossed,
@@ -27,9 +28,8 @@ export const site = {
   slogan: "Aş'a Lezzet Katıyoruz",
   description:
     "Fabrika, işyeri, okul ve kurumlara ISO belgeli mutfağımızda hazırlanan günlük tabldot, kumanya ve organizasyon yemeği hizmeti.",
-  // Yayında NEXT_PUBLIC_SITE_URL ile ezilir; canonical/sitemap/OG adresleri buradan üretilir.
-  // TODO: gerçek alan adı belli olunca yayın ortamında bu değişken ayarlanmalı.
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.nazasyemek.com",
+  // canonical/sitemap/OG adresleri buradan üretilir; NEXT_PUBLIC_SITE_URL ile ezilebilir.
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://nazasyemek.com",
   address: {
     street: "Mahmutbey Mah. Kültür Cad. No: 25/A",
     district: "Bağcılar",
@@ -117,6 +117,12 @@ export const mainNav: NavEntry[] = [
         href: "/galeri",
         icon: Images,
         description: "Mutfağımızdan ve sahadan fotoğraflar",
+      },
+      {
+        label: "Blog",
+        href: "/blog",
+        icon: Newspaper,
+        description: "Haberler, duyurular ve menü yazıları",
       },
     ],
   },

@@ -2,9 +2,10 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
-import { certificates } from "@/data/media";
+import { getCertificates } from "@/lib/content/media";
 
-export function CertificateStrip() {
+export async function CertificateStrip() {
+  const certificates = await getCertificates();
   return (
     <Section className="bg-inverse">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-center lg:gap-16">

@@ -3,13 +3,14 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
-import { certificates } from "@/data/media";
+import { getCertificates } from "@/lib/content/media";
 
 /**
  * Stitch Hakkımızda bölüm 5: sertifika kartları.
  * İçerik uydurulmadı — PDF'lerden okunan gerçek belge listesi kullanılıyor.
  */
-export function CertificateHighlights({ limit = 6 }: { limit?: number }) {
+export async function CertificateHighlights({ limit = 6 }: { limit?: number }) {
+  const certificates = await getCertificates();
   return (
     <Section className="bg-cream">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">

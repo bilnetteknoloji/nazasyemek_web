@@ -1,7 +1,7 @@
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
-import { capacity } from "@/data/home";
+import { getStats } from "@/lib/content/site";
 
 const valueTone = {
   brand: "text-brand-800",
@@ -18,7 +18,8 @@ const plusTone = {
 } as const;
 
 /** Stitch: dört sütunlu, ayraçlı kapasite paneli. */
-export function CapacityStats() {
+export async function CapacityStats() {
+  const { capacity } = await getStats();
   return (
     <Section className="bg-cream">
       <Reveal className="bg-container shadow-soft rounded-[2rem] p-6 sm:rounded-[2.5rem] sm:p-8 lg:p-12">

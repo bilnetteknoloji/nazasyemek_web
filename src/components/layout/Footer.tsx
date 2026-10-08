@@ -3,10 +3,12 @@ import Link from "next/link";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { SocialLinks, WhatsAppIcon } from "@/components/ui/SocialIcons";
 import { PhoneNaz } from "@/components/ui/PhoneNaz";
-import { certificates } from "@/data/media";
-import { legalNav, flatNav, site } from "@/data/site";
+import { legalNav, flatNav } from "@/data/site";
+import { getSite } from "@/lib/content/site";
+import { getCertificates } from "@/lib/content/media";
 
-export function Footer() {
+export async function Footer() {
+  const [site, certificates] = await Promise.all([getSite(), getCertificates()]);
   const year = new Date().getFullYear();
 
   return (
@@ -62,7 +64,7 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <Phone className="text-brand-600 mt-0.5 size-4 shrink-0" aria-hidden />
                 <a href={site.phoneHref} className="hover:text-brand-800 transition-colors">
-                  <PhoneNaz />
+                  <PhoneNaz display={site.phoneDisplay} label={site.phone} />
                 </a>
               </li>
               <li className="flex items-center gap-3">

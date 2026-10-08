@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { InstagramIcon } from "@/components/ui/SocialIcons";
 import { instagramPosts } from "@/data/instagram";
-import { site } from "@/data/site";
+import { useSite } from "@/components/SiteProvider";
 
 const EMBED_SCRIPT = "https://www.instagram.com/embed.js";
 
@@ -20,7 +20,7 @@ declare global {
  * embed.js blockquote'ları iframe'e çevirir; liste sabit olduğu için React yeniden çizmez.
  */
 export function InstagramFeed() {
-  const { href, label } = site.social.instagram;
+  const { href, label } = useSite().social.instagram;
 
   useEffect(() => {
     if (!instagramPosts.length) return;

@@ -10,7 +10,8 @@ import { submitForm } from "@/lib/submit-form";
 import { quoteSchema, type QuoteInput } from "@/lib/quote-schema";
 import { Button } from "@/components/ui/Button";
 import { services } from "@/data/services";
-import { legalNav, site } from "@/data/site";
+import { legalNav } from "@/data/site";
+import { useSite } from "@/components/SiteProvider";
 import Link from "next/link";
 
 const steps = [
@@ -24,6 +25,7 @@ const fieldClass =
   "border-line focus:border-brand-300 w-full rounded-2xl border bg-white px-4 py-3 text-sm outline-none transition-colors";
 
 export function QuoteForm() {
+  const site = useSite();
   const [step, setStep] = useState(0);
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const reduced = useReducedMotion();
@@ -52,6 +54,15 @@ export function QuoteForm() {
     const ok = await submitForm({
       subject: `Teklif talebi — ${values.company}`,
       replyTo: values.email,
+      lead: {
+        kind: "teklif",
+        name: values.contact,
+        company: values.company,
+        email: values.email,
+        phone: values.phone,
+        meals: String(values.meals),
+        service: service?.title ?? values.service,
+      },
       fields: {
         Form: "Teklif Formu (/teklif-al)",
         Firma: values.company,

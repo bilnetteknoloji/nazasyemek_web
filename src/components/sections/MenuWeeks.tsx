@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Flame, Salad, Soup, UtensilsCrossed, Wheat } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { menuWeeks } from "@/data/menu";
+import type { MenuWeek } from "@/data/menu";
 
 const rows = [
   { key: "soup", label: "Çorba", icon: Soup },
@@ -14,7 +14,14 @@ const rows = [
 ] as const;
 
 /** Hafta sekmeleri + gün kartları. */
-export function MenuWeeks({ compact = false }: { compact?: boolean }) {
+export function MenuWeeks({
+  weeks: menuWeeks,
+  compact = false,
+}: {
+  /** Sunucuda `getMenuWeeks()` ile okunur (panel ya da src/data/menu.ts). */
+  weeks: MenuWeek[];
+  compact?: boolean;
+}) {
   const [active, setActive] = useState(0);
   const week = menuWeeks[active];
 

@@ -3,10 +3,11 @@ import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { tastingCta } from "@/data/about";
-import { site } from "@/data/site";
+import { getSite } from "@/lib/content/site";
 
 /** Stitch Hakkımızda bölüm 6: ücretsiz tadım menüsü daveti. */
-export function TastingCta() {
+export async function TastingCta() {
+  const site = await getSite();
   return (
     <Section className="pb-24">
       <Reveal className="from-brand-800 via-brand-600 to-accent-500 relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br px-8 py-14 text-center sm:px-14 sm:py-20">

@@ -5,7 +5,8 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Mail, MapPin, Phone, Smartphone, X } from "lucide-react";
-import { isNavGroup, mainNav, site } from "@/data/site";
+import { isNavGroup, mainNav } from "@/data/site";
+import { useSite } from "@/components/SiteProvider";
 import { ButtonLink } from "@/components/ui/Button";
 import { SocialLinks, WhatsAppIcon } from "@/components/ui/SocialIcons";
 
@@ -13,6 +14,7 @@ import { SocialLinks, WhatsAppIcon } from "@/components/ui/SocialIcons";
 export const OPEN_MOBILE_NAV = "naz:open-mobile-nav";
 
 export function MobileNav() {
+  const site = useSite();
   const [open, setOpen] = useState(false);
   const reduced = useReducedMotion();
 

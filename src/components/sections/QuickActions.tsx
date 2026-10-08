@@ -1,12 +1,13 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/SocialIcons";
-import { site } from "@/data/site";
+import { site as staticSite } from "@/data/site";
+import { getSite } from "@/lib/content/site";
 
 const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-  `${site.legalName}, ${site.address.full}`,
+  `${staticSite.legalName}, ${staticSite.address.full}`,
 )}`;
 
-const actions = [
+const actionsFor = (site: Awaited<ReturnType<typeof getSite>>) => [
   { label: "Ara", href: site.phoneHref, icon: Phone, tint: "text-brand-700" },
   {
     label: "WhatsApp",
@@ -20,7 +21,8 @@ const actions = [
 ];
 
 /** Mobilde hero altında yan yana dört hızlı iletişim kısayolu. */
-export function QuickActions() {
+export async function QuickActions() {
+  const actions = actionsFor(await getSite());
   return (
     <div className="bg-cream-deep border-line border-b px-5 pt-5 pb-1 sm:px-8 lg:hidden">
       <ul className="mx-auto grid max-w-xl grid-cols-4 gap-2.5">
