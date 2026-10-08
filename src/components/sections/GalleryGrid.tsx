@@ -6,7 +6,7 @@ import { Expand, Play } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Lightbox } from "@/components/ui/Lightbox";
 import { Reveal } from "@/components/ui/Reveal";
-import { gallery, type GalleryGroup } from "@/data/media";
+import type { GalleryGroup, GalleryItem } from "@/data/media";
 
 /** Grup sırası ve adları; öğeler `npm run assets` → `buildGallery` içinde atanır. */
 const groupLabels: Record<GalleryGroup, string> = {
@@ -24,11 +24,14 @@ const columnClass = {
 } as const;
 
 export function GalleryGrid({
+  items: gallery,
   limit,
   withFilters = true,
   columns = 4,
   groups,
 }: {
+  /** Sunucuda `getGallery()` ile okunur (panel ya da src/data/media.ts). */
+  items: GalleryItem[];
   limit?: number;
   withFilters?: boolean;
   columns?: 3 | 4;
@@ -40,7 +43,7 @@ export function GalleryGrid({
 
   const pool = useMemo(
     () => (groups ? gallery.filter((item) => groups.includes(item.group)) : gallery),
-    [groups],
+    [gallery, groups],
   );
 
   const filters = useMemo(

@@ -1,8 +1,9 @@
-import { site } from "@/data/site";
+import { getSite } from "@/lib/content/site";
 import { WhatsAppIcon } from "@/components/ui/SocialIcons";
 
 /** Sağ altta sabit WhatsApp butonu (yalnız geniş ekran; mobilde alt sekme çubuğunda). */
-export function WhatsAppFab() {
+export async function WhatsAppFab() {
+  const site = await getSite();
   return (
     <a
       href={`https://wa.me/${site.whatsapp}`}

@@ -1,12 +1,14 @@
 import { Container } from "@/components/ui/Container";
 import { HeroBackdrop } from "@/components/layout/HeroBackdrop";
 import { Reveal } from "@/components/ui/Reveal";
-import { contactHero } from "@/data/contact";
+import { contactHeroFor } from "@/data/contact";
+import { getSite } from "@/lib/content/site";
 import { heroShell } from "@/lib/hero-shell";
 import { cn } from "@/lib/cn";
 
 /** Stitch İletişim bölüm 1. */
-export function ContactHero() {
+export async function ContactHero() {
+  const contactHero = contactHeroFor(await getSite());
   return (
     <section
       className={cn(

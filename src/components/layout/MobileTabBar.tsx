@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ClipboardList, House, Menu, UtensilsCrossed } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { site } from "@/data/site";
+import { useSite } from "@/components/SiteProvider";
 import { WhatsAppIcon } from "@/components/ui/SocialIcons";
 import { OPEN_MOBILE_NAV } from "./MobileNav";
 
@@ -20,6 +20,7 @@ const tab =
  * header'daki backdrop-blur `fixed` öğeler için yeni bağlam yaratıyor.
  */
 export function MobileTabBar() {
+  const site = useSite();
   const pathname = usePathname();
 
   const link = (href: string, label: string, Icon: typeof House) => {

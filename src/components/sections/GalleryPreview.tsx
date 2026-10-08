@@ -2,9 +2,11 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
+import { getGallery } from "@/lib/content/media";
 import { GalleryGrid } from "./GalleryGrid";
 
-export function GalleryPreview() {
+export async function GalleryPreview() {
+  const gallery = await getGallery();
   return (
     <Section>
       <SectionHeading
@@ -16,6 +18,7 @@ export function GalleryPreview() {
 
       <div className="mt-12">
         <GalleryGrid
+          items={gallery}
           limit={8}
           withFilters={false}
           groups={["tesis", "mutfak", "kumanya", "servis"]}

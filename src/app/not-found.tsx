@@ -3,9 +3,11 @@ import { ArrowLeft } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
 import { flatNav } from "@/data/site";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 
 export default function NotFound() {
   return (
+    <SiteChrome>
     <section className="flex min-h-[70vh] items-center py-32">
       <Container className="text-center">
         <p className="text-accent-600 text-xs font-semibold tracking-[0.28em] uppercase">
@@ -37,5 +39,6 @@ export default function NotFound() {
         </ul>
       </Container>
     </section>
+    </SiteChrome>
   );
 }

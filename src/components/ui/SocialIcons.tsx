@@ -1,7 +1,7 @@
 "use client";
 
 import { useId } from "react";
-import { site } from "@/data/site";
+import { useSite } from "@/components/SiteProvider";
 import { cn } from "@/lib/cn";
 
 /*
@@ -69,11 +69,6 @@ export function WhatsAppIcon({ className }: IconProps) {
   );
 }
 
-const channels = [
-  { name: "Instagram", Icon: InstagramIcon, ...site.social.instagram },
-  { name: "TikTok", Icon: TikTokIcon, ...site.social.tiktok },
-  { name: "Facebook", Icon: FacebookIcon, ...site.social.facebook },
-] as const;
 
 /**
  * Sosyal medya bağlantıları: beyaz yuvarlak butonlar içinde marka renkli logolar.
@@ -88,6 +83,13 @@ export function SocialLinks({
   withLabels?: boolean;
   size?: "sm" | "md";
 }) {
+  const { social } = useSite();
+  // Panelde boş bırakılan hesap gösterilmez.
+  const channels = [
+    { name: "Instagram", Icon: InstagramIcon, ...social.instagram },
+    { name: "TikTok", Icon: TikTokIcon, ...social.tiktok },
+    { name: "Facebook", Icon: FacebookIcon, ...social.facebook },
+  ].filter((channel) => channel.href);
   return (
     <ul className={cn("flex flex-wrap items-center gap-2.5", className)}>
       {channels.map(({ name, Icon, label, href }) => (

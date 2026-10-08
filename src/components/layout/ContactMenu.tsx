@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { site } from "@/data/site";
+import { useSite } from "@/components/SiteProvider";
 import { SocialLinks, WhatsAppIcon } from "@/components/ui/SocialIcons";
 
 /**
@@ -12,6 +12,7 @@ import { SocialLinks, WhatsAppIcon } from "@/components/ui/SocialIcons";
  * telefon, WhatsApp ve e-postayı tek bir açılır alanda toplar.
  */
 export function ContactMenu() {
+  const site = useSite();
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 

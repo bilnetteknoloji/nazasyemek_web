@@ -1,11 +1,13 @@
 import type { MetadataRoute } from "next";
 import { services } from "@/data/services";
 import { legalNav, flatNav, site } from "@/data/site";
+import { getPosts } from "@/lib/content/posts";
 
-// Statik yayında derleme anında üretilir.
+// Statik yayında derleme anında üretilir; Node yayınında blog etiketiyle tazelenir.
 export const dynamic = "force-static";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getPosts();
   const now = new Date();
 
   const staticRoutes = [
@@ -29,6 +31,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    ...posts.map((post) => ({
+      url: `${site.url}/blog/${post.slug}`,
+      lastModified: new Date(post.publishedAt),
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
     })),
   ];
 }

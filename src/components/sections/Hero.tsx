@@ -11,24 +11,28 @@ import { heroBadge, heroSlides } from "@/data/home";
  */
 export function Hero() {
   return (
-    <section className="bg-inverse relative w-full overflow-hidden text-white">
-      <div className="relative flex min-h-[560px] w-full items-center overflow-hidden lg:min-h-[640px]">
+    <section className="bg-cream-deep lg:bg-inverse relative w-full overflow-hidden text-white">
+      {/* Mobil ve tablette slider, header'ın altında yuvarlak köşeli bir
+          uygulama kartı; masaüstünde tam genişlikte koyu banner. */}
+      <div className="bg-inverse relative w-full overflow-hidden max-lg:mx-auto max-lg:mt-[96px] max-lg:aspect-[16/10] max-lg:w-[calc(100%-2rem)] max-lg:rounded-3xl max-lg:shadow-lg sm:max-lg:aspect-[16/9] lg:flex lg:min-h-[640px] lg:items-center">
         <HeroSlider slides={heroSlides} />
 
-        {/* Okunabilirlik gradyanları. Masaüstünde görselin sol kenarı zaten
-            maskeyle eridiği için hafif tutulur; görsel karartılmaz. */}
+        {/* Okunabilirlik gradyanları — yalnız masaüstünde; mobil ve tablette
+            hero yalnızca görselden oluşur. Görselin sol kenarı zaten maskeyle
+            eridiği için hafif tutulur; görsel karartılmaz. */}
         <div
           aria-hidden
-          className="from-inverse via-inverse/85 lg:via-inverse/40 absolute inset-0 bg-gradient-to-r to-transparent lg:w-1/2"
+          className="from-inverse lg:via-inverse/40 absolute inset-0 hidden bg-gradient-to-r to-transparent lg:block lg:w-1/2"
         />
         <div
           aria-hidden
-          className="from-inverse/90 to-inverse/50 lg:from-inverse/60 absolute inset-0 bg-gradient-to-t via-transparent lg:to-transparent"
+          className="from-inverse/60 absolute inset-0 hidden bg-gradient-to-t via-transparent to-transparent lg:block"
         />
 
-        <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-32 pb-16 sm:px-8 sm:pt-40 sm:pb-24">
+        {/* Mobil ve tablette metin gizli (başlık yalnız ekran okuyucuda kalır). */}
+        <div className="relative z-10 mx-auto max-lg:sr-only w-full max-w-6xl px-5 pt-32 pb-16 sm:px-8 sm:pt-40 sm:pb-24">
           <div className="flex max-w-2xl flex-col gap-6">
-            <p className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-medium tracking-wide text-white/90 shadow-lg backdrop-blur-md">
+            <p className="hidden w-fit items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-medium tracking-wide text-white/90 shadow-lg backdrop-blur-md lg:inline-flex">
               <BadgeCheck
                 className="text-sage-300 size-4 shrink-0"
                 aria-hidden
@@ -42,13 +46,13 @@ export function Hero() {
               Katıyoruz.
             </h1>
 
-            <p className="max-w-xl text-base leading-relaxed text-white/85 drop-shadow-sm sm:text-lg">
+            <p className="hidden max-w-xl text-base leading-relaxed text-white/85 drop-shadow-sm sm:text-lg lg:block">
               Modern endüstriyel mutfaklarımız, usta aşçılarımız ve hijyen
               sertifikalı süreçlerimizle kurumlara sıcak, sağlıklı ve dengeli
               yemek üretiyoruz.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 pt-1">
+            <div className="hidden flex-wrap items-center gap-4 pt-1 lg:flex">
               <ButtonLink href="/teklif-al" size="lg">
                 Teklif Alın
                 <ArrowRight

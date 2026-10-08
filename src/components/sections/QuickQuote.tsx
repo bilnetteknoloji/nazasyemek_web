@@ -6,7 +6,7 @@ import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 import { portionRanges, quickQuotePoints, serviceModes } from "@/data/home";
-import { site } from "@/data/site";
+import { useSite } from "@/components/SiteProvider";
 import { submitForm } from "@/lib/submit-form";
 
 const inputClass =
@@ -63,6 +63,7 @@ const emptyContact: ContactValues = {
 
 /** Stitch: "Kurumunuz İçin İdeal Yemek Modelini Belirleyin" — hızlı ön hesaplama. */
 export function QuickQuote() {
+  const site = useSite();
   const [portion, setPortion] = useState(0);
   const [mode, setMode] = useState(0);
   const [contact, setContact] = useState<ContactValues>(emptyContact);
@@ -76,6 +77,16 @@ export function QuickQuote() {
     const ok = await submitForm({
       subject: `Hızlı ön hesaplama — ${contact.company}`,
       replyTo: contact.email,
+      lead: {
+        kind: "on-hesaplama",
+        name: contact.fullName,
+        company: contact.company,
+        email: contact.email,
+        phone: contact.phone,
+        address: contact.address,
+        meals: portionRanges[portion],
+        service: serviceModes[mode].label,
+      },
       fields: {
         Form: "Hızlı Ön Hesaplama",
         "Ad Soyad": contact.fullName,

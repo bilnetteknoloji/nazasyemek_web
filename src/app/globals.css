@@ -77,6 +77,23 @@ html {
   scroll-padding-top: 6rem;
 }
 
+/*
+ * Mobil uygulama ölçeği: rem'e bağlı tüm yazı, boşluk ve ikon boyutları
+ * telefonda %87,5, tablette %93,75 oranında küçülür; masaüstü (lg+) 16px.
+ * Yüzde kullanıldığı için tarayıcının yazı boyutu tercihi korunur.
+ */
+@media (max-width: 1023.98px) {
+  html {
+    font-size: 93.75%;
+  }
+}
+
+@media (max-width: 639.98px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
 body {
   -webkit-tap-highlight-color: transparent;
   background-color: var(--color-cream);
@@ -110,6 +127,10 @@ body {
 @media (max-width: 1023.98px) {
   body {
     padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+  }
+  /* Panel kendi sekme çubuğunun boşluğunu kendisi bırakır. */
+  body:has([data-admin]) {
+    padding-bottom: 0;
   }
 }
 
@@ -200,5 +221,23 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- Yönetim paneli --- */
+
+/* Dokunmatikte basma geri bildirimi (uygulama hissi). */
+@utility pressable {
+  transition-property: transform, background-color, color, border-color, opacity;
+  transition-duration: 150ms;
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

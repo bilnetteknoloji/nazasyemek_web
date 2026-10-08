@@ -14,7 +14,7 @@ import {
   Truck,
 } from "lucide-react";
 import { photos } from "./media";
-import { site } from "./site";
+import type { Site } from "@/lib/site-contact";
 
 const photo = (name: string) =>
   photos.find((item) => item.src.endsWith(name)) ?? photos[0];
@@ -28,7 +28,8 @@ const photo = (name: string) =>
  * site.ts'teki telefon/e-posta/WhatsApp hâlâ TODO — müşteriden gelecek.
  */
 
-export const contactHero = {
+/** İletişim kanalları panelden geldiği için başlık ve kartlar `site` alır. */
+export const contactHeroFor = (site: Site) => ({
   badge: "Kurumsal Çözüm & İletişim",
   icon: Headset as LucideIcon,
   title: "Bizimle İletişime Geçin",
@@ -40,9 +41,9 @@ export const contactHero = {
     { icon: Truck as LucideIcon, label: "İstanbul geneli dağıtım" },
   ],
   photo: photo("nazas7.webp"),
-};
+});
 
-export const contactCards: {
+export type ContactCard = {
   icon: LucideIcon;
   eyebrow: string;
   title: string;
@@ -57,7 +58,9 @@ export const contactCards: {
     href: string;
     external?: boolean;
   }[];
-}[] = [
+};
+
+export const contactCardsFor = (site: Site): ContactCard[] => [
   {
     icon: Building2,
     eyebrow: "Merkez",

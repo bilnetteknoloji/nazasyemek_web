@@ -6,15 +6,17 @@ import { site } from "@/data/site";
  * mutlak konumlu.
  */
 export function PhoneNaz({
-  display = site.phoneDisplay,
-  label = site.phone,
+  display,
+  label,
 }: {
-  display?: string;
+  display: string;
   /** Ekran okuyucu için okunacak numara. */
-  label?: string;
+  label: string;
 }) {
   const digits = display.split(" ");
   const last = digits.pop();
+  // Numara panelden değiştirilip 629 ile bitmiyorsa NAZ karşılığı yazılmaz.
+  if (last !== "629") return <span aria-label={label}>{display}</span>;
   return (
     <span className="inline-block pb-1.5" aria-label={label}>
       <span aria-hidden>
